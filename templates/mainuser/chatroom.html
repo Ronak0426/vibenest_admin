@@ -1,0 +1,434 @@
+{% extends 'mainuser/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Vibenest - My friends
+{% endblock %}
+
+{% block 'css' %}
+<style>
+    .sidebar.sidebar-chat.sidebar-base
+    {
+        top: 65px !important;
+    }
+</style>{% endblock %}
+
+{% block 'js' %}
+
+<input type="hidden" id="userphoto" value="{{request.session.profileimage }}"/>
+    <script>
+    
+        $(document).ready(function () {
+
+
+
+
+            var otherphoto = $("#hprofile").val();
+            var uid;
+            uid = $("#hid").val();
+            $(".current_user_name").html($("#hfirstname").val());
+            $(".current_user_profile").attr("src", $("#hprofile").val());
+            loadmessage(uid);
+
+            $(".chatusers").click(function () {
+                uid = $(this).attr("data-id");
+                $(".current_user_name").html($(this).attr("data-name"));
+                $(".current_user_profile").attr("src", $(this).attr("data-profile"));
+                otherphoto = $(this).attr("data-profile");
+                loadmessage(uid);
+            });
+            function loadmessage(uid) {
+                $.ajax({
+                    url: "/loadmessages",
+                    method: "POST",
+                    data: {
+                        other_user: uid,
+                        current_user: "{{request.user.id}}"
+                    },
+                    success: function (json) {
+                        var op = "";
+                        $.each(json, (key, row) => {
+                            var cls = "";
+                            var other = "";
+                            var userphoto = "";
+                            if (row.sender_id == uid) {
+                                cls = "iq-other-user";
+                                other = "justify-content-start";
+                                userphoto = otherphoto;
+                            }
+                            else {
+                                cls = "iq-current-user";
+                                other = "justify-content-end";
+                                userphoto = $("#userphoto").val();
+                            }
+                            op = op + `<div class="iq-message-body ${cls}">
+                            <div class="chat-profile text-center">
+                                <img src="${userphoto}" alt="chat-user" class="avatar-40 rounded-pill" loading="lazy">
+                                <small class="iq-chating p-0 mb-0 d-block">-</small>
+                            </div>
+                            <div class="iq-chat-text">
+                                <div class="d-flex align-items-center ${other} gap-md-2">
+                                    <div class="iq-chating-content d-flex align-items-center ">
+                                        <p class="mr-2 mb-0">${row.message}</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>`;
+                        })
+                        $(".chat-body").html(op);
+                        $(".chat-body").animate({ scrollTop: $(".chat-body")[0].scrollHeight }, 500);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+            setInterval(function () {
+                loadmessage(uid);
+            }, 3000);
+            $("#chatform").submit(function (e) {
+                e.preventDefault();
+                var message = $("#txtmessage").val();
+                if (message == "") {
+                    return;
+                }
+                $.ajax({
+                    url: "/sendmessage",
+                    method: "POST",
+                    data: {
+                        message: message,
+                        other_user: uid,
+                        current_user: "{{request.user.id}}"
+                    },
+                    success: function (row) {
+                        var op = "";
+                        var cls = "";
+                        var other = "";
+                        if (row.sender_id == uid) {
+                            cls = "iq-other-user";
+                            other = "justify-content-start";
+                        }
+                        else {
+                            cls = "iq-current-user";
+                            other = "justify-content-end";
+                        }
+                        op = op + `<div class="iq-message-body ${cls}">
+                        <div class="chat-profile text-center">
+                            <img src="{% static 'mainuser/assets/images/chat/avatar/01.png'%}" alt="chat-user" class="avatar-40 rounded-pill" loading="lazy">
+                            <small class="iq-chating p-0 mb-0 d-block">-</small>
+                        </div>
+                        <div class="iq-chat-text">
+                            <div class="d-flex align-items-center ${other} gap-md-2">
+                                <div class="iq-chating-content d-flex align-items-center ">
+                                    <p class="mr-2 mb-0">${row.message}</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>`;
+                        $(".chat-body").append(op);
+                        $("#txtmessage").val("");
+                        $("#txtmessage").data("emojioneArea").setText('');
+                        $(".chat-body").animate({ scrollTop: $(".chat-body")[0].scrollHeight }, 500);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            var recognition;
+            
+            // Check for browser support
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+        
+                recognition.onresult = function(event) {
+                    var transcript = event.results[0][0].transcript;
+                    //$('#txtmessage').val(transcript);
+                    // $("#txtmessage").data("emojioneArea").setText(transcript);
+                    var instance = $("#txtmessage").data("emojioneArea");
+                    const currentText = instance.getText();
+                    const newText = currentText + transcript; // or from speech
+                    instance.setText(newText);
+                    setTimeout(function () {
+                    const editor = instance.editor[0]; // the contenteditable div
+                    if (editor && document.createRange) {
+                        const range = document.createRange();
+                        const sel = window.getSelection();
+
+                        range.selectNodeContents(editor);
+                        range.collapse(false); // move to end
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                    }, 10);
+                };
+        
+                recognition.onerror = function(event) {
+                    console.error("Speech recognition error:", event.error);
+                };
+        
+                $('.iconspeech').click(function() {
+                    recognition.start();
+                });
+            } else {
+                alert('Speech Recognition not supported in this browser.');
+            }
+        });
+        </script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
+       <script>
+        $("#txtmessage").emojioneArea({
+            pickerPosition: "top",
+            tonesStyle: "bullet"
+        });
+       
+      </script>
+
+{% endblock %}
+
+{% block 'main' %}
+
+{% if totalfriends == 0 %}
+
+<div class="text-center d-flex align-items-center justify-content-center h-100">
+    <div>
+        <h2>You dont have friends</h2>
+        <p>Mae friends from our ai based suggestions</p>
+        <a href="/myfriendsuggestion" class="btn btn-primary">Browse Friends</a>
+    </div>
+</div>
+
+{% else %}
+
+
+    <aside class="sidebar sidebar-chat sidebar-base border-end shadow-none" data-sidebar="responsive">
+        <div class="chat-search pt-4 px-4">
+            <h5 class="fw-500">Chats</h5>
+
+            <div class="chat-searchbar mt-3 pt-1 mb-4">
+                <div class="form-group chat-search-data m-0">
+                    <input type="text" class="form-control round" id="chat-search"
+                        placeholder="Search for messages or users...">
+                    <i class="material-symbols-outlined">
+                        search
+                    </i>
+                </div>
+            </div>
+            <div class="swiper swiper-general messenger-swiper overflow-hidden mb-4" data-slide="7.3" data-laptop="6.3"
+                data-tab="5.3" data-mobile="4.3" data-mobile-sm="4.3" data-autoplay="false" data-loop="false"
+                data-navigation="false" data-pagination="true" data-space="12">
+                <!-- <div class="swiper-wrapper">
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/01.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Paul Molive</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/02.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">John Travolta</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/03.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Barb Ackue</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/04.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Robert Fox</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/05.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Maya Didas</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/06.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Monty Carlo</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/07.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Paige Turner</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/08.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Arnold Schwarzenegger</p>
+                    
+                </div>
+                <div class="swiper-slide text-center">
+                    <div class="messanger-box position-relative d-inline-block">
+                        <img src="../assets/images/chat/avatar/09.png" class="avatar-48 object-cover rounded-circle" alt="messanger-image">
+                    </div>
+                    <p class="mt-2 mb-0 font-size-14 custom-ellipsis text-body">Leonardo DiCaprio</p>
+                    
+                </div>
+            </div> -->
+            </div>
+        </div>
+        <div class="sidebar-body pt-0 data-scrollbar mb-5 pb-5 px-4">
+            <!-- Sidebar Menu Start -->
+            <ul class="nav navbar-nav iq-main-menu mb-5 pb-5" id="sidebar-menu" role="tablist">
+                <h6 class="mb-3 pb-1">Recent Chats</h6>
+                {% for row in data %}
+                {% if forloop.first %}
+                    <input type="hidden" value="{{row.friend_id.first_name}}" id="hfirstname"/>
+                    <input type="hidden" value="{{row.friend_id.id}}" id="hid"/>
+                    {% for erow in extrainfo %}
+                    {% if erow.user_id.id == row.friend_id.id %}
+                    <input type="hidden" value="{{erow.profile}}" id="hprofile"/>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+                {% for row in data %}
+                {% for erow in extrainfo %}
+                {% if erow.user_id.id == row.friend_id.id %}
+                <li class="nav-item iq-chat-list mb-3 ps-0 active chatusers" data-name="{{row.friend_id.first_name}}"
+                    data-id="{{row.friend_id.id}}" data-profile="{{erow.profile}}">
+                    {% endif %}
+                    {% endfor %}
+                    <a href="javascript:void(0);" class="nav-link  d-flex gap-3 rounded-2 zoom-in" data-bs-toggle="tab"
+                        role="tab" aria-controls="user-content-101" aria-selected="true">
+
+                        <div class="position-relative">
+                            {% for erow in extrainfo %}
+                            {% if erow.user_id.id == row.friend_id.id %}
+                            <img src="{{erow.profile}}" alt="status-101" class="avatar-48 object-cover rounded-circle"
+                                loading="lazy">
+                            {% endif %}
+                            {% endfor %}
+                            <div class="iq-profile-badge bg-success"></div>
+                        </div>
+                        <div class="d-flex align-items-top w-100 iq-userlist-data">
+                            <div class="d-flex flex-grow-1 flex-column">
+                                <div class="d-flex align-items-center gap-1">
+                                    <h6
+                                        class="mb-0 iq-userlist-name font-size-14 fw-semibold mb-0 text-ellipsis short-1 flex-grow-1">
+                                        {{row.friend_id.first_name}}</h6>
+                                    <span class="mb-0 font-size-12">03:20 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <!-- Sidebar Menu End -->
+        </div>
+        <div class="sidebar-footer"></div>
+    </aside>
+    <main class="main-content">
+        <div class="container-fluid content-inner p-0 h-100" id="page_layout">
+            <div class="tab-content h-100" id="myTabContent">
+                <div class="card tab-pane mb-0 fade show active h-100" id="user-content-101" role="tabpanel">
+                    <div class="chat-head">
+                        <header class="d-flex justify-content-between align-items-center pt-3  ps-3 pe-3 pb-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-block d-xl-none">
+                                    <button class="btn btn-sm btn-primary rounded btn-icon" data-toggle="sidebar"
+                                        data-active="true">
+                                        <span class="btn-inner">
+                                            <svg class="icon-rtl" width="20px" viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                    d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="avatar chat-user-profile m-0">
+                                    <img src="{% static 'mainuser/assets/images/chat/avatar/01.png'%}" alt="avatar"
+                                        class="avatar-50 rounded-pill current_user_profile" loading="lazy">
+                                    <div class="iq-profile-badge  bg-success"></div>
+
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 current_user_name">Paul Molive</h5>
+                                </div>
+                            </div>
+
+
+                        </header>
+                    </div>
+                    <div class="card-body chat-body bg-body">
+                       
+                    </div>
+                    <div class="card-footer px-3 py-3 border-top rounded-0">
+                        <form class="d-flex align-items-center" method="POST" id="chatform">
+                            <div class="chat-attagement d-flex">
+                              
+
+                                
+                                <a href="javascript:void(0);" class="d-flex align-items-center pe-3 iconspeech">
+                                    <svg class="icon-24 " width="18" height="23" viewBox="0 0 18 23" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.00021 21.5V18.3391" stroke="currentcolor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M9.00021 14.3481V14.3481C6.75611 14.3481 4.9384 12.5218 4.9384 10.2682V5.58095C4.9384 3.32732 6.75611 1.5 9.00021 1.5C11.2433 1.5 13.061 3.32732 13.061 5.58095V10.2682C13.061 12.5218 11.2433 14.3481 9.00021 14.3481Z"
+                                            stroke="currentcolor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                        <path
+                                            d="M17 10.3006C17 14.7394 13.418 18.3383 9 18.3383C4.58093 18.3383 1 14.7394 1 10.3006"
+                                            stroke="currentcolor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                        <path d="M11.0689 6.25579H13.0585" stroke="currentcolor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M10.0704 9.59344H13.0605" stroke="currentcolor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <input type="text" id="txtmessage" class="form-control me-3"
+                                placeholder="Type your message" x-webkit-speech>
+                            <button type="submit" class="btn btn-primary d-flex align-items-center">
+                                <svg class="icon-20" width="18" viewBox="0 0 20 21" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M13.8325 6.67463L8.10904 12.4592L1.59944 8.38767C0.66675 7.80414 0.860765 6.38744 1.91572 6.07893L17.3712 1.55277C18.3373 1.26963 19.2326 2.17283 18.9456 3.142L14.3731 18.5868C14.0598 19.6432 12.6512 19.832 12.0732 18.8953L8.10601 12.4602"
+                                        stroke="currentcolor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg><span class="d-none d-lg-block ms-1">Send</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    
+    {% endif %}
+
+ 
+{% endblock %}

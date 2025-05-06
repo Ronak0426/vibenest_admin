@@ -1,0 +1,132 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Career
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+    <!-- Timeline
+      ================================================= -->
+    <div class="timeline">
+        <div class="timeline-cover">
+
+            <!--Timeline Menu for Large Screens-->
+            <div class="timeline-nav-bar hidden-sm hidden-xs">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-info">
+                            <img src="{% static 'user/images/users/user-1.jpg' %}" alt=""
+                                class="img-responsive profile-photo" />
+                            <h3>{{request.user.first_name}}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="list-inline profile-menu">
+                            <li><a href="/userpost">POST</a></li>
+                            <li><a href="/userabout" class="active">ABOUT</a></li>
+                            <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+                            <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!--Timeline Menu for Large Screens End-->
+
+            <!--Timeline Menu for Small Screens-->
+            <div class="navbar-mobile hidden-lg hidden-md">
+                <div class="profile-info">
+                    <img src="{% static 'user/images/users/user-1.jpg' %}" alt=""
+                        class="img-responsive profile-photo" />
+                    <h4>{{request.user.first_name}}</h4>
+                </div>
+                <div class="mobile-menu">
+                    <ul class="list-inline profile-menu">
+                        <li><a href="/userpost">POST</a></li>
+                        <li><a href="/userabout" class="active">ABOUT</a></li>
+                        <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+                        <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+                    </ul>
+                    <button class="btn-primary">Add Friend</button>
+                </div>
+            </div><!--Timeline Menu for Small Screens End-->
+
+        </div>
+        <div id="page-contents">
+            <div class="row">
+                <!--Edit Profile Menu-->
+                <div class="col-md-3">
+                    <ul class="edit-menu">
+                        <li><i style="font-size:18px" class="fa">&#xf05a;</i><a href="/basicinfo">Basic Information</a></li>
+                        <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/education">Education </a></li>
+                        <li class="active"><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/career">Career </a></li>
+                        <li><i style="font-size:18px" class="fa">&#xf0c0;</i><a href="/groups">Group's</a></li>
+                        <li><i style='font-size:18px' class='fa'>&#xf004;</i><a href="/myinterests">My Interests</a></li>
+                        <li><i style="font-size:18px" class="fa">&#xf013;</i><a href="/accountsetting">Account Settings</a></li>
+                        <li><i style="font-size:18px" class="fa">&#xf023;</i></i><a href="/changepassword">Change Password</a></li>
+                        <li><i class="fa fa-sign-out" style="font-size:18px"></i><a href="/logoutuser">Logout</a></li>
+                    </ul>
+                </div>
+                <!--Edit Profile Menu End -->
+                <div class="col-md-7">
+
+                    <!-- Edit Work and Education -->
+                    <div class="edit-profile-container">
+                        <div class="block-title">
+                            <h4 class="grey"><i style="font-size:24px" class="fa">&#xf19d;</i>My Career</h4>
+                            <div class="line"></div>
+                        </div>
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        <div class="edit-block">
+                            <form id="form" method="POST" name="education" id="education" class="form-inline"
+                                enctype="multipart/form-data" action="/insert_career">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-xs-12">
+                                        <label for="company">Company/Organization Name </label>
+                                        <input name="company" id="company" class="form-control input-group-lg"
+                                            type="text" placeholder="Enter Company/Organization Name" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-12">
+                                        <label for="position">Position </label>
+                                        <input name="position" id="position" class="form-control input-group-lg"
+                                            type="text" placeholder="Enter Your Position" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-6">
+                                        <label for="start-year">Start Year</label>
+                                        <input id="start-year" class="form-control input-group-lg" type="text"
+                                            name="start-year" title="Enter a Date" placeholder="Joining Year" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xs-6">
+                                        <label for="end-year">End Year</label>
+                                        <input id="end-year" class="form-control input-group-lg" type="text"
+                                            name="end-year" title="Enter a Date" placeholder="End Year" />
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

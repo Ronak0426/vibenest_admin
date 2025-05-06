@@ -1,0 +1,350 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Newsfeed
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div id="page-contents">
+    <div class="container">
+        <div class="row">
+            <!-- Newsfeed Common Side Bar Left -->
+            <div class="col-md-3 static">
+                <div class="profile-card">
+                    {% for erow in extrainfo %}
+                    {% if erow.user_id.id == request.user.id %}
+                    <img src="{{erow.profile}}" alt="user" class="profile-photo" />
+                    {% endif %}
+                    {% endfor %}
+                    <h5><a href="/basicinfo" class="text-white">{{request.user.first_name}}</a></h5>
+                    <a href="/userfriendfollowing" class="text-white"><i class="ion ion-android-person-add"></i> {{fdata}} followers</a>
+
+                </div>
+
+                <!--profile card ends-->
+                <ul class="nav-news-feed">
+                    <li><i class="icon ion-ios-paper"></i>
+                        <div><a href="/newsfeed">Newsfeed</a></div>
+                    </li>
+                    <li><i class="icon ion-ios-people"></i>
+                        <div><a href="/friendsuggestion">People Nearby</a></div>
+                    </li>
+                    <li><i class="icon ion-ios-people-outline"></i>
+                        <div><a href="/userfriendfollowing">Friends</a></div>
+                    </li>
+                    <li><i class="icon ion-chatboxes"></i>
+                        <div><a href="/chatroom">Messages</a></div>
+                    </li>
+                    <!-- <li><i class="icon ion-images"></i>
+                        <div><a href="newsfeed-images.html">Images</a></div>
+                    </li>
+                    <li><i class="icon ion-ios-videocam"></i>
+                        <div><a href="newsfeed-videos.html">Videos</a></div>
+                    </li> -->
+                    <li><i class="fa fa-sign-out"></i>
+                        <div><a href="/logoutuser">Logout</a></div>
+                    </li>
+
+                </ul>
+
+               
+            </div>
+            <div class="col-md-7">
+
+                <!-- Post Create Box -->
+                <!-- <div class="create-post">
+                    <div class="row">
+                        <div class="col-md-7 col-sm-7">
+                            <div class="form-group">
+                                <img src="{% static 'user/images/users/user-1.jpg' %}" alt=""
+                                    class="profile-photo-md" />
+                                <textarea name="texts" id="exampleTextarea" cols="30" rows="1" class="form-control"
+                                    placeholder="Write what you wish"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-5">
+                            <div class="tools">
+                                <ul class="publishing-tools list-inline">
+                                    <li><a href="#"><i class="ion-compose"></i></a></li>
+                                    <li><a href="#"><i class="ion-images"></i></a></li>
+                                    <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                                    <li><a href="#"><i class="ion-map"></i></a></li>
+                                </ul>
+                                <button class="btn btn-primary pull-right">Publish</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Post Create Box End-->
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+
+                <!-- Post Create Form  -->
+
+                <div class="edit-profile-container">
+                    <!-- <div class="block-title">                       
+                    </div> -->
+                    <div class="edit-block">
+                        <form id="form" method="POST" name="form" id="form" class="form-inline"
+                            enctype="multipart/form-data" action="/insert_newsfeed">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="form-group col-xs-6">
+                                    <label for="category"> Category</label>
+
+                                    <select id="category" class="form-control input-group-lg" type="text"
+                                        name="category" placeholder="Your Category">
+                                        <option value="">Please Select Category</option>
+                                        {% for cat in category %}
+                                        <option value="{{cat.category_id}}">{{cat.category_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xs-12">
+                                    <label for="title">Overview </label>
+                                    <input id="title" class="form-control input-group-lg" type="text" name="title"
+                                        placeholder="Title" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xs-6">
+                                    <label for="posttype"> Post Type</label>
+
+                                    <select id="posttype" class="form-control input-group-lg" type="text"
+                                        name="posttype" title="Enter city" placeholder="Your Category">
+                                        <option>Please Select Your Type</option>
+                                        <option value="Video">Video </option>
+                                        <option value="Image">Image </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row videosection">
+                                <div class="form-group col-xs-12">
+                                    <label for="vurl">Video URL </label>
+                                    <input id="vurl" class="form-control input-group-lg" type="url" name="vurl"
+                                        placeholder="Video URL" />
+                                </div>
+                            </div>
+                            <div class="row imagesection">
+                                <div class="form-group col-xs-12">
+                                    <label for="img1">Image 1</label>
+                                    <input id="img1" class="form-control input-group-lg" type="file" name="img1"
+                                        placeholder="Please Select Your Image" />
+                                </div>
+                            </div>
+                            <div class="row imagesection">
+                                <div class="form-group col-xs-12">
+                                    <label for="img2">Image 2</label>
+                                    <input id="img2" class="form-control input-group-lg" type="file" name="img2"
+                                        placeholder="Please Select Your Image" />
+                                </div>
+                            </div>
+                            <div class="row imagesection">
+                                <div class="form-group col-xs-12">
+                                    <label for="img3">Image 3</label>
+                                    <input id="img3" class="form-control input-group-lg" type="file" name="img3"
+                                        placeholder="Please Select Your Image" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xs-12">
+                                    <label for="text1">Text</label>
+                                    <textarea id="text1" name="text1" class="form-control"
+                                        placeholder="Enter Your Text " rows="4" cols="400"></textarea>
+                                </div>
+                            </div>
+                          
+                            <!-- <div class="row">
+                                <div class="form-group col-xs-12">
+                                    <label for="datetime">Current Date Time</label>
+                                    <input type="datetime-local" id="datetime" name="datetime" class="form-control">
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="form-group col-xs-6">
+                                    <div class="form-group isDisabled">
+                                        <span class="custom-label"><strong> isDisabled </strong></span>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="Yes" name="disable" checked>Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="No" name="disable">No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-6">
+                                    <div class="form-group type">
+                                        <span class="custom-label"><strong>Account Privacy </strong></span>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="Private" name="type" checked>Private
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="Public" name="type">Public
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Data Share </button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <!-- Post Create Form End -->
+
+                <!-- Post Content -->
+                {% for row in posts %}
+                <div class="post-content">
+                    <img src="{{ row.img1 }}" alt="post-image" class="img-responsive post-image" />
+                    <div class="post-container">
+                        {% for erow in extrainfo %}
+                                 {% if erow.user_id.id == row.user_id.id %}
+                        <img src="{{erow.profile}}" alt="user"
+                            class="profile-photo-md pull-left" />
+                            {% endif %}
+                            {% endfor %}
+                        <div class="post-detail">
+
+                            <div class="user-info">
+                                <h5><a href="timeline.html" class="profile-link">{{row.user_id.first_name}} </a> <span
+                                        class="following">Following</span></h5>
+
+                            </div>
+
+                            <p class="text-muted">{{row.post_date_time}} </p>
+                            <div class="reaction">
+                                <a class="btn text-green"><i class="icon ion-thumbsup"></i> 13</a>
+                                <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                            </div>
+                            <div class="line-divider"></div>
+                            <div class="post-text">
+                                <p>{{row.text}} <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i
+                                        class="em em-anguished"></i></p>
+                            </div>
+                            <div class="line-divider"></div>
+                            {% for crow in comment %}
+                            {% if row.post_id == crow.post_id.post_id %}
+                            <div class="post-comment">
+                                {% for erow in extrainfo %}
+                                 {% if erow.user_id.id == crow.user_id.id %}
+                                <img src="{{erow.profile}}" alt=""
+                                    class="profile-photo-sm" />
+                                    {% endif %}
+                                    {% endfor %}
+                                <p><a href="timeline.html" class="profile-link">{{crow.user_id.first_name}}</a> 
+                                    {{crow.comments}} 
+                                    {{crow.comment_datetime}}
+                                </p>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <div class="post-comment">
+                                <form id="form" method="POST" name="form" id="form" class="form-inline"
+                                enctype="multipart/form-data" action="/insert_comment">
+                                {% csrf_token %}
+                                <input type="hidden" class="form-control" id="postid"  name="postid" value="{{row.post_id}}">
+                                <input type="text" class="form-control" id="comment"  name="comment" placeholder="Post a comment">
+                                
+                                <button type="submit" class="btn btn-primary">submit</button>
+                              <!-- <img src="{% static 'user/send.png' %}" alt="" width="10%" type="submit"> -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Post Content End -->
+            </div>
+
+            <!-- Post Content End --
+
+            <!-- Newsfeed Common Side Bar Right -->
+            <div class="col-md-2 static">
+                <div class="suggestions" id="sticky-sidebar">
+                    <h4 class="grey">Suggested for You</h4>
+                    {% for row in data %}
+                    <div class="follow-user">
+                        {% for erow in extrainfo %}
+                        {% if erow.user_id.id == row.id %}
+                        <img src="{{erow.profile}}" alt="user" class="profile-photo-sm pull-left" />
+                        {% endif %}
+                        {% endfor %}
+                        <div>
+                            <h5><a href="/timelineabout/{{row.id}}">{{row.first_name}} </a></h5>
+                            <a href="/timelineabout/{{row.id}}" class="text-green">Add friend</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Newsfeed Common Side Bar Right End -->
+        </div>
+        <!-- Newsfeed Common Side Bar Left  End-->
+    </div>
+</div>
+
+<!-- Scripts -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&amp;callback=initMap"></script>
+<script src="{% static 'user/js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'user/js/jquery.sticky-kit.min.js' %}"></script>
+<script src="{% static 'user/js/jquery.scrollbar.min.js' %}"></script>
+<script src="{% static 'user/js/script.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+<script>
+    $("#form").validate({
+        rules:
+        {
+            title:
+            {
+                required: true
+            },
+            posttype:
+            {
+                required: true
+            },
+            vurl:
+            {
+                required: true
+            },
+            img1:
+            {
+                required: true,
+                accept: "image/*"
+            },
+            img2:
+            {
+                required: true,
+                accept: "image/*"
+            },
+            img3:
+            {
+                required: true,
+                accept: "image/*"
+            },
+            text1:
+            {
+                required: true
+            },
+        },
+    });
+</script>
+
+{% endblock %}

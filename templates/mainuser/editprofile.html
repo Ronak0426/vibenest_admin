@@ -1,0 +1,422 @@
+{% extends 'mainuser/master.html' %}
+{% load static %}
+
+{% block 'title' %}
+Vibenest - Edit Profile
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}
+
+<script>
+  {% if data.city_id.state_id.state_id %}
+  loadbystate({{data.city_id.state_id.state_id}},{{data.city_id.city_id}});
+  {% endif %}
+  function loadbystate(stateid,cid="")
+  {
+      $.ajax({
+        url:"/adminpanel/loadcitybystate",
+        method:"POST",
+        data:{"stateid":stateid,"cid":cid},
+        success:function(response)
+        {
+          $("#city").html(response);
+        },
+        error:function(error)
+        {
+          alert(error);
+        }
+      })
+  }
+</script>
+
+{% endblock %}
+
+{% block 'main' %}
+<div>
+    <div class="position-relative">
+    </div>
+    <div class="content-inner " id="page_layout">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body p-0">
+                <div class="iq-edit-list">
+                  <ul class="iq-edit-profile row nav nav-pills">
+                    <li class="col-md-3 p-0">
+                      <a class="nav-link active" data-bs-toggle="pill" href="#personal-information">
+                        Personal Information
+                      </a>
+                    </li>
+                    <li class="col-md-3 p-0">
+                      <a class="nav-link" data-bs-toggle="pill" href="#chang-pwd">
+                        Change Password
+                      </a>
+                    </li>
+                    <li class="col-md-3 p-0">
+                      <a class="nav-link" data-bs-toggle="pill" href="#emailandsms">
+                        Education & Career
+                      </a>
+                    </li>
+                    <li class="col-md-3 p-0">
+                      <a class="nav-link" data-bs-toggle="pill" href="#manage-contact">
+                        Create a Group
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="iq-edit-list-data">
+              <div class="tab-content">
+                <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="header-title">
+                        <h4 class="card-title">Personal Information</h4>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form id="form" method="POST" class="form-inline" enctype="multipart/form-data" action="/insert_basicinfo">
+                      {% csrf_token %}
+                        <div class="form-group row align-items-center">
+                          <div class="col-md-12">
+                            <div class="profile-img-edit">
+                              <img class="profile-pic" src="{{request.session.profileimage}}" style="height: 150px;  width: 150px;" alt="profile-pic"
+                                loading="lazy">
+                              </div>
+                          </div>
+                        </div>
+                        <div class=" row align-items-center">
+                          <div class="form-group col-sm-6">
+                            <label for="firstname">First Name</label>
+                            <input id="firstname" class="form-control input-group-lg" type="text" name="firstname"
+                            value="{{request.user.first_name}}" readonly title="Enter first name" placeholder="First name" />
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="lastname" class="">Last Name</label>
+                            <input id="lastname" class="form-control input-group-lg" type="text" name="lastname"
+                            value="{{request.user.last_name}}" readonly title="Enter last name" placeholder="Last name" />
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="email">My Email</label>
+                            <input id="email" value="{{request.user.email}}" readonly class="form-control input-group-lg"
+                            type="text" name="email" title="Enter Email" placeholder="My Email" />
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="date">Date of Birth</label>
+                            <input type="date" value="{{data.birthdate|date:'Y-m-d'}}" id="date" class="form-control input-group-lg" name="date"
+                            placeholder="Enter Birth Date">
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="city"> My State</label>
+
+                            <select id="state" onchange="loadbystate(this.value);" class="form-control input-group-lg" type="text" name="state" title="Enter city"
+                              placeholder="Your State">
+                              <option>Please Select State</option>
+                              {% for row in states %}
+                              <option  {% if data.city_id.state_id.state_id == row.state_id %} selected {% endif %} value="{{row.state_id}}">{{row.state_name}}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="city"> My City</label>
+
+                            <select id="city" class="form-control input-group-lg" type="text" name="city" title="Enter city"
+                              placeholder="Your city">
+                              <option>Please Select City</option>
+                              <!-- <option>Please Select City</option>
+                              {% for row in city %}
+                              <option  {% if data.city_id.city_id == row.city_id %} selected {% endif %} value="{{row.city_id}}">{{row.city_name}}</option>
+                              {% endfor %} -->
+                            </select>
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="userphoto">Photo</label>
+                            <input id="userphoto" class="form-control input-group-lg" type="file" name="userphoto" >
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="coverphoto">Cover Photo</label>
+                            <input id="coverphoto" class="form-control input-group-lg" type="file" name="coverphoto" >
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="time">Time</label>
+                            <input id="time" class="form-control input-group-lg" type="text" name="time" 
+                            value="{{data.timing}}" placeholder="Set View Time" />
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="optgender">Gender :</label>
+                            <label class="radio-inline">
+                              <input type="radio" {% if data.gender == "Male" %} checked {% endif %}  value="Male"  name="optgender" checked>Male
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" {% if data.gender == "Female" %} checked {% endif %} value="Female" name="optgender">Female
+                            </label>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <button type="reset" class="btn btn-danger-subtle">Cancel</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="chang-pwd" role="tabpanel">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="iq-header-title">
+                        <h4 class="card-title">Change Password</h4>
+                      </div>
+                    </div>
+                    {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    {% endfor %}
+                    <div class="card-body">
+                      <form method="POST"  id="form" class="form-inline" action="/update_password">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="cpass" class="form-label">Current Password:</label>
+                          <a href="#" class="float-end">Forgot Password</a>
+                          <input id="oldpwd" class="form-control input-group-lg" type="password" name="oldpwd" title="Enter password" placeholder="Old Password"/>
+                        </div>
+                        <div class="form-group">
+                          <label for="npass" class="form-label">New Password:</label>
+                          <input id="newpwd" class="form-control input-group-lg" type="password" name="newpwd" title="Enter password" placeholder="New Password"/>
+                        </div>
+                        <div class="form-group">
+                          <label for="vpass" class="form-label">Verify Password:</label>
+                          <input class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Confirm Password"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <button type="reset" class="btn btn-danger-subtle">cancel</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="emailandsms" role="tabpanel">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="header-title">
+                        <h3 class="card-title">Education & Career</h3>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h3 class="card-title">Education </h3>
+                    <form id="form" method="POST" name="education" id="education" class="form-inline"
+                      enctype="multipart/form-data" action="/insert_education">
+                      {% csrf_token %}
+                      <div class=" row align-items-center">
+                        <div class="form-group col-sm-6"><label for="college">My University/College </label>
+
+                          <select name="college" id="college" class="form-control input-group-lg" type="text"
+                            placeholder="Enter University/College Name" />
+                          <option value="">Please Select Your College </option>
+                          {% for row in college %}
+                          <option value="{{row.colleges_id}}">{{row.colleges_name}}</option>
+                          {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-sm-6"><label for="degree">My Degree </label>
+
+                          <select name="degree" id="degree" class="form-control input-group-lg" type="text"
+                            placeholder="Enter Your Degree" />
+                          <option value="">Please Select Your Degree </option>
+                          {% for row in degree %}
+                          <option value="{{row.degree_id}}">{{row.degree_name}}</option>
+                          {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                          <label for="start-year">Start Year</label>
+                          <input id="start-year" class="form-control input-group-lg" type="text" name="start-year"
+                            title="Enter a Date" placeholder="College Start Year" />
+                        </div>
+                        <div class="form-group col-sm-6">
+                          <label for="end-year" class="">End Year</label>
+                          <input id="end-year" class="form-control input-group-lg" type="text" name="end-year"
+                            title="Enter a Date" placeholder="College End Year" />
+                        </div>
+                        <div class="form-group col-sm-12">
+                          <label for="description">Description</label>
+                          <textarea id="description" name="description" class="form-control"
+                            placeholder="Some texts about my education" rows="4" cols="400"></textarea>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary me-2">Submit</button>
+                      <button type="reset" class="btn btn-danger-subtle">cancel</button>
+                    </form><br>
+                    <div class="block block-rounded">
+                    <div class="block-content block-content-full overflow-x-auto">
+                      <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _js/pages/be_tables_datatables.js -->
+                      <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+                        <thead>
+                          <tr>
+                            <th class="text-center" style="width: 30px;">#</th>
+                            <th class="d-sm-table-cell" style="width: 30%;">College </th>
+                            <th class="d-sm-table-cell" style="width: 30%;">Degree</th>
+                            <th class="d-sm-table-cell" style="width: 60%;">Start Year</th>
+                            <th class="d-sm-table-cell" style="width: 60%;">End Year</th>
+                            <th class="d-sm-table-cell" style="width: 20%;">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in edudata %}
+                          <tr>
+                            <td class="text-center fs-sm">{{forloop.counter}}</td>
+                            <td class="text-center fs-sm">{{row.colleges_id.colleges_name}}</td>
+                            <td class="text-center fs-sm">{{row.degree_id.degree_name}}</td>
+                            <td class="text-center fs-sm">{{row.start_year}}</td>
+                            <td class="text-center fs-sm">{{row.end_year}}</td>
+                            <td class="d-sm-table-cell">
+                              <div class="btn-group me-2 mb-2" role="group" aria-label="Icons File group">
+                                <!-- <button type="button" class="btn btn-primary">
+                                  <i class="fa fa-fw fa-edit"></i>
+                                </button> -->
+                                <button> Delete
+                                <a href="/adminpanel/delete_education/{{ row.education_id }}">
+                                </a>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                      <h3 class="card-title">Career </h3>
+                      <form id="form" method="POST" name="education" id="education" class="form-inline"
+                      enctype="multipart/form-data" action="/insert_career">
+                      {% csrf_token %}
+                      <div class=" row align-items-center">
+                        <div class="form-group col-sm-6">
+                          <label for="company">Company/Organization Name </label>
+                          <input name="company" id="company" class="form-control input-group-lg"
+                          type="text" placeholder="Enter Company/Organization Name" /></div>
+                        <div class="form-group col-sm-6">
+                          <label for="position">Position </label>
+                          <input name="position" id="position" class="form-control input-group-lg"
+                              type="text" placeholder="Enter Your Position" />
+                        </div>
+                        <div class="form-group col-sm-6">
+                          <label for="start-year">Start Year</label>
+                          <input id="start-year" class="form-control input-group-lg" type="text"
+                              name="start-year" title="Enter a Date" placeholder="Joining Year" />
+                        </div>
+                        <div class="form-group col-sm-6">
+                          <label for="end-year">End Year</label>
+                          <input id="end-year" class="form-control input-group-lg" type="text"
+                              name="end-year" title="Enter a Date" placeholder="End Year" />
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary me-2">Submit</button>
+                      <button type="reset" class="btn btn-danger-subtle">cancel</button>
+                      </form> <br>
+                      <div class="block block-rounded">
+                        
+                        <div class="block-content block-content-full overflow-x-auto">
+                          <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _js/pages/be_tables_datatables.js -->
+                          <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+                            <thead>
+                              <tr>
+                                <th class="text-center" style="width: 30px;">#</th>
+                                <th class="d-sm-table-cell" style="width: 30%;">Company Name</th>
+                                <th class="d-sm-table-cell" style="width: 30%;">Position</th>
+                                <th class="d-sm-table-cell" style="width: 60%;">Start Year</th>
+                                <th class="d-sm-table-cell" style="width: 60%;">End Year</th>
+                                <th class="d-sm-table-cell" style="width: 20%;">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for row in cardata %}
+                              <tr>
+                                <td class="text-center fs-sm">{{forloop.counter}}</td>
+                                <td class="d-sm-table-cell fs-sm">{{ row.company_name }}</td> 
+                                <td class="text-center fs-sm">{{ row.position }} </td>
+                                <td class="text-center fs-sm">{{ row.start_year }} </td>
+                                <td class="text-center fs-sm">{{ row.end_year }} </td>
+                                <td class="d-sm-table-cell">
+                                    <div class="btn-group me-2 mb-2" role="group" aria-label="Icons File group">
+                                        <!-- <button type="button" class="btn btn-primary">
+                                          <i class="fa fa-fw fa-edit"></i>
+                                        </button> -->
+                                        <button> Delete
+                                        <a href="/adminpanel/delete_career/{{ row.career_id }}">
+                                        </a>
+                                      </button>
+                                      </div>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <form id="form" method="POST" name="form" id="form" class="form-inline" enctype="multipart/form-data" action="/insert_postusercat">
+                      {% csrf_token %}
+                      <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                        <label for="category"> Category</label>
+
+                        <select id="category" class="form-control input-group-lg" type="text"
+                                name="category" placeholder="Your Category">
+                                <option value="">Please Select Category</option>
+                                {% for cat in catdata %}
+                                <option value="{{cat.category_id}}">{{cat.category_name}}</option>
+                                {% endfor %}
+                        </select> <br>
+                        <button type="submit" class="btn btn-primary d-flex gap-2"><i
+                          class="material-symbols-outlined">add</i>Add </button>
+                      </div>
+                    </form>
+
+                </div>
+              </div>
+                <div class="tab-pane fade" id="manage-contact" role="tabpanel">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="header-title">
+                        <h4 class="card-title">Create A Group</h4>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form id="form" method="POST" name="education" id="education" class="form-inline"
+                        enctype="multipart/form-data" action="/insert_groups">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="name">Group Name </label>
+                          <input name="name" id="name" class="form-control input-group-lg" type="text"
+                            placeholder="Enter Your Group Name" />  
+                        </div>
+                        <div class="form-group">
+                          <label for="img">Group Logo</label>
+                          <input id="img" class="form-control input-group-lg" type="file" name="img"
+                              placeholder="Please Select Your Logo" />
+                        </div>
+                        <div class="form-group">
+                          <label for="description">Description</label>
+                          <textarea id="description" name="description" class="form-control"
+                            placeholder="Some texts about my education" rows="4" cols="400"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <button type="reset" class="btn btn-danger-subtle">cancel</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% load static %}
+
+
+<!doctype html>
+<html lang="en" class="remember-theme">
+  <head>
+    <meta charset="utf-8">
+    <!--
+      Available classes for <html> element:
+
+      'dark'                  Enable dark mode - Default dark mode preference can be set in app.js file (always saved and retrieved in localStorage afterwards):
+                                window.One = new App({ darkMode: "system" }); // "on" or "off" or "system"
+      'dark-custom-defined'   Dark mode is always set based on the preference in app.js file (no localStorage is used)
+      'remember-theme'        Remembers active color theme between pages using localStorage when set through
+                                - Theme helper buttons [data-toggle="theme"]
+    -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>Admin Login</title>
+
+    <meta name="description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework">
+    <meta property="og:site_name" content="OneUI">
+    <meta property="og:description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="{% static 'assets/media/favicons/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'assets/media/favicons/favicon-192x192.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/media/favicons/apple-touch-icon-180x180.png' %}">
+    <!-- END Icons -->
+
+    <!-- Stylesheets -->
+    <!-- OneUI framework -->
+    <link rel="stylesheet" id="css-main" href="{% static 'assets/css/oneui.min.css' %}">
+
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+
+    <!-- Load and set color theme + dark mode preference (blocking script to prevent flashing) -->
+    <script src="{% static 'assets/js/setTheme.js' %}"></script>
+  </head>
+
+  <body>
+    <div id="page-container">
+
+      <!-- Main Container -->
+      <main id="main-container">
+        <!-- Page Content -->
+        <div class="hero-static d-flex align-items-center">
+          <div class="content">
+            <div class="row justify-content-center push">
+              <div class="col-md-8 col-lg-6 col-xl-4">
+                <!-- Sign In Block -->
+                <div class="block block-rounded mb-0">
+                  <div class="block-header block-header-default">
+                    <div class="block-options">
+                      </a>
+                    </div>
+                  </div>
+                  {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                      {% endfor %} 
+                  <div class="block-content">
+                    <div class="p-sm-3 px-lg-4 px-xxl-5 py-lg-5">
+                      <!-- <h1 class="h2 mb-1">Vibenest</h1> 
+                      <p class="fw-medium text-muted">
+                        - The Smart Way to Socialize
+                      </p> -->
+                      <img src="{% static 'mainuser/assets/images/login/loader.png'%}" alt="img" width="80%">
+                      <!-- Sign In Form -->
+                      <!-- jQuery Validation (.js-validation-signin class is initialized in js/pages/op_auth_signin.min.js which was auto compiled from _js/pages/op_auth_signin.js) -->
+                      <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                          
+                      <form class="js-validation-signin" action="/adminpanel/checkadminlogin" method="POST">
+                        {% csrf_token %}
+                        <div class="py-3">
+                          <div class="mb-4">
+                            <label for="">Username :</label>
+                            <input type="text" class="form-control form-control-alt form-control-lg" id="login-username" name="login-username" placeholder="Username">
+                          </div>
+                          <div class="mb-4">
+                            <label for="">Password :</label>
+                            <input type="password" class="form-control form-control-alt form-control-lg" id="login-password" name="login-password" placeholder="Password">
+                          </div>
+                          <div class="mb-4">
+                              <a class="btn-block-option fs-sm" href="/adminpanel/changepassword"><h5>Forgot Password ?</h5></a>
+                          
+                            <button type="submit" class="btn w-100 btn-alt-primary">
+                              <i class="fa fa-fw fa-sign-in-alt me-1 opacity-50"></i> Sign In
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <!-- END Sign In Form -->
+                    </div>
+                  </div>
+                </div>
+                <!-- END Sign In Block -->
+              </div>
+            </div>
+            <div class="fs-sm text-muted text-center">
+              <strong>Vibenest </strong> &copy; <span data-toggle="year-copy"></span>
+            </div>
+          </div>
+        </div>
+        <!-- END Page Content -->
+      </main>
+      <!-- END Main Container -->
+    </div>
+    <!-- END Page Container -->
+
+    <!--
+        OneUI JS
+
+        Core libraries and functionality
+        webpack is putting everything together at assets/_js/main/app.js
+    -->
+    <script src="{% static 'assets/js/oneui.app.min.js' %}"></script>
+
+    <!-- jQuery (required for jQuery Validation plugin) -->
+    <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script>
+
+    <!-- Page JS Plugins -->
+    <script src="{% static 'assets/js/plugins/jquery-validation/jquery.validate.min.js' %}"></script>
+
+    <!-- Page JS Code -->
+    <script src="{% static 'assets/js/pages/op_auth_signin.min.js' %}"></script>
+  </body>
+</html>

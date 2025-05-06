@@ -1,0 +1,87 @@
+{% extends 'mainuser/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Vibenest - My friends
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+<div>
+    <div class="position-relative">
+        <!-- Page Content  -->
+        <div class="header-for-bg">
+            <div class="background-header position-relative">
+                <img src="{% static 'mainuser/assets/images/page-img/profile-bg3.jpg'%}" class="img-fluid w-100"
+                    alt="header-bg" loading="lazy">
+                <div class="title-on-header">
+                    <div class="data-block">
+                        <h2>Friend Lists</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Content  -->
+    </div>
+    <div class="content-inner " id="page_layout">
+        <div class="container">
+            <div class="row">
+                {% for row in data %}
+                <div class="col-md-6">
+                    <div class="card card-block card-stretch card-height">
+                        <div class="card-body profile-page p-0">
+                            <div class="profile-header-image">
+                                <div class="cover-container">
+                                    {% for erow in extrainfo %}
+                                    {% if erow.user_id.id == row.friend_id.id %}
+                                    <img src="{{erow.coverphoto}}" style="height: 200px;" alt="profile-bg"
+                                        class="rounded img-fluid w-100" loading="lazy">
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </div>
+                                <div class="profile-info p-4">
+                                    <div class="user-detail">
+                                        <div class="d-flex flex-wrap justify-content-between align-items-start">
+                                            <div class="profile-detail d-flex">
+                                                <div class="profile-img pe-lg-4">
+                                                    {% for erow in extrainfo %}
+                                                    {% if erow.user_id.id == row.friend_id.id %}
+                                                    <img src="{{erow.profile}}" style="height: 100px;" alt="profile-img"
+                                                        loading="lazy" class="avatar-130 img-fluid" />
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="user-data-block mt-md-0 mt-2">
+                                                    <h4>
+                                                        <a
+                                                            href="/myfriendrequestprofile/{{row.friend_id.id}}">{{row.friend_id.first_name}}</a>
+                                                    </h4>
+                                                    {% for erow in extrainfo %}
+                                                    {% if erow.user_id.id == row.friend_id.id %}
+                                                    <h6>{{erow.birthdate}}</h6>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% for erow in extrainfo %}
+                                                    {% if erow.user_id.id == row.friend_id.id %}
+                                                    <!-- <p class="mb-2 mb-md-0">{{erow.aboutme}}</p> -->
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

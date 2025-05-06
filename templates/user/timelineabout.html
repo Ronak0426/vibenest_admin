@@ -1,0 +1,146 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Timeline
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+
+    <!-- Timeline
+    ================================================= -->
+    <div class="timeline">
+      <div class="timeline-cover">
+
+        <!--Timeline Menu for Large Screens-->
+        <div class="timeline-nav-bar hidden-sm hidden-xs">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="profile-info">
+                <img src="{{extrainfo.profile}}" alt="" class="img-responsive profile-photo" />
+                <h3>{{data.first_name}}</h3>
+                <!-- <h3>{{extrainfo.gender}}</h3>
+                <h3>{{extrainfo.birthdate}}</h3> -->
+              </div>
+            </div>
+            <div class="col-md-9">
+              <ul class="list-inline profile-menu">
+                <li><a href="/timelineabout/{{id}}" class="active">About</a></li>
+                <li><a href="/timeline/{{id}}">Timeline</a></li>
+                <li><a href="/timelinefriends/{{id}}">Following</a></li>
+              </ul>
+              <ul class="follow-me list-inline">
+                <li>
+                  <form method="post" action="/addafriend">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{id}}" name="fid"/>
+                    <button type="submit" class="btn-primary">Add Friend</button>
+                  </form>
+                </li>
+            </ul>
+            </div>
+          </div>
+        </div><!--Timeline Menu for Large Screens End-->
+
+        <!--Timeline Menu for Small Screens-->
+        <div class="navbar-mobile hidden-lg hidden-md">
+          <div class="profile-info">
+            <img src="{{extrainfo.profile}}" alt="" class="img-responsive profile-photo" />
+            <h4>{{data.first_name}}</h4>
+          </div>
+          <div class="mobile-menu">
+            <ul class="list-inline profile-menu">
+              <li><a href="/timelineabout/{{id}}" class="active">About</a></li>
+              <li><a href="/timeline/{{id}}">Timeline</a></li>
+              <li><a href="/timelinefriends/{{id}}">Following</a></li>
+            </ul>
+          </div>
+        </div><!--Timeline Menu for Small Screens End-->
+
+      </div>
+      <div id="page-contents">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-7">
+
+            <!-- About
+            ================================================= -->
+            <div class="about-profile">
+              <div class="about-content-block">
+                <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Personal Information</h4>
+                <p>{{extrainfo.gender}}</p>
+                <p>{{extrainfo.birthdate}}</p>
+                
+              </div>
+              <div class="about-content-block">
+                <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Education </h4>
+                {% for row in education %}
+                <div class="organization">
+                  <img src="{% static 'user/images/envato.png' %}" alt="" class="pull-left img-org" />
+                  <div class="work-info">
+                    <h5>Degree : {{row.degree_id.degree_name}} </h5>
+                    <p>University/College : {{row.colleges_id.colleges_name}}</p>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="about-content-block">
+                <h4 class="grey"><i class="ion-ios-location-outline icon-in-title"></i>Location</h4>
+                <p>{{extrainfo.city_id.city_name}}</p>
+                <div class="google-maps">
+                </div>
+              </div>
+              <div class="about-content-block">
+                <h4 class="grey"><i class="fa fa-graduation-cap" style="font-size:30px"></i>Career</h4>
+              {% for row in career %}
+                <p>Company Name : {{row.company_name}}</p>
+                <p>Position : {{row.position}}</p>
+                <p>Joining  : {{row.start_year}}</p>
+                <p>End : {{row.end_year}}</p>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-2 static">
+            <div id="sticky-sidebar">
+              <h4 class="grey">Sarah's activity</h4>
+              <div class="feed-item">
+                <div class="live-activity">
+                  <p><a href="#" class="profile-link">Sarah</a> Commended on a Photo</p>
+                  <p class="text-muted">5 mins ago</p>
+                </div>
+              </div>
+              <div class="feed-item">
+                <div class="live-activity">
+                  <p><a href="#" class="profile-link">Sarah</a> Has posted a photo</p>
+                  <p class="text-muted">an hour ago</p>
+                </div>
+              </div>
+              <div class="feed-item">
+                <div class="live-activity">
+                  <p><a href="#" class="profile-link">Sarah</a> Liked her friend's post</p>
+                  <p class="text-muted">4 hours ago</p>
+                </div>
+              </div>
+              <div class="feed-item">
+                <div class="live-activity">
+                  <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
+                  <p class="text-muted">a day ago</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

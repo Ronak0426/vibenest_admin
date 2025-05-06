@@ -1,0 +1,151 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Timeline
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+  <!-- Timeline
+      ================================================= -->
+  <div class="timeline">
+    <div class="timeline-cover">
+
+      <!--Timeline Menu for Large Screens-->
+      <div class="timeline-nav-bar hidden-sm hidden-xs">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="profile-info">
+              <img src="{{extrainfo.profile}}" alt="" class="img-responsive profile-photo" />
+              <h3>{{data.first_name}}</h3>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <ul class="list-inline profile-menu">
+              <li><a href="/timelineabout/{{id}}">About</a></li>
+              <li><a href="/timeline/{{id}}" class="active">Timeline</a></li>
+              <li><a href="/timelinefriends/{{id}}">Following</a></li>
+            </ul>
+            <ul class="follow-me list-inline">
+                <li><button class="btn-primary">Add Friend</button></li>
+            </ul>
+          </div>
+        </div>
+      </div><!--Timeline Menu for Large Screens End-->
+
+      <!--Timeline Menu for Small Screens-->
+      <div class="navbar-mobile hidden-lg hidden-md">
+        <div class="profile-info">
+          <img src="{{posts.profile}}" alt="" class="img-responsive profile-photo" />
+          <h4>{{request.user.first_name}}</h4>
+        </div>
+        <div class="mobile-menu">
+          <ul class="list-inline profile-menu">
+            <li><a href="/timelineabout/{{id}}">About</a></li>
+            <li><a href="/timeline/{{id}}" class="active">Timeline</a></li>
+            <li><a href="/timelinefriends/{{id}}">Following</a></li>
+          </ul>
+        </div>
+      </div><!--Timeline Menu for Small Screens End-->
+
+    </div> <br> <br>
+    <div id="page-contents">
+      <div class="row">
+        <div class="col-md-10">
+
+          <!-- Post Create Box
+              ================================================= -->
+          <div class="create-post">
+            <div class="row">
+
+            </div>
+          </div><!-- Post Create Box End-->
+
+          <!-- Post Content
+              ================================================= -->
+          <div class="post-content">
+
+            {% for row in posts %}
+            <img src="{{ row.img1 }}"  alt="post-image" class="img-responsive post-image" />
+            <div class="post-container">
+
+              <img src="{{extrainfo.profile}}" alt="user" class="profile-photo-md pull-left" />
+
+              <div class="post-detail">
+                <div class="user-info">
+                  <h5><a href="timeline.html" class="profile-link">{{row.user_id.first_name}}</a> <span
+                      class="following">Following</span></h5>
+                  <p class="text-muted">{{row.post_date_time}}</p>
+                </div>
+                <div class="reaction">
+                  <a class="btn text-green"><i class="icon ion-thumbsup"></i> 13</a>
+                  <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                </div>
+                <div class="line-divider"></div>
+                <div class="post-text">
+                  <p>{{row.text}} </p>
+                </div>
+                <div class="line-divider"></div>
+                <div class="post-comment">
+                  <img src="{% static 'user/images/users/user-11.jpg' %}" alt="" class="profile-photo-sm" />
+                  <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum
+                    dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                </div>
+                <div class="post-comment">
+                  <img src="{% static 'user/images/users/user-4.jpg' %}" alt="" class="profile-photo-sm" />
+                  <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                    veniam, quis nostrud </p>
+                </div>
+                <div class="post-comment">
+                  <img src="{% static 'user/images/users/user-1.jpg' %}" alt="" class="profile-photo-sm" />
+                  <input type="text" class="form-control" placeholder="Post a comment">
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+        </div>
+        <div class="col-md-2 static">
+          <div id="sticky-sidebar">
+            <h4 class="grey">Sarah's activity</h4>
+            <div class="feed-item">
+              <div class="live-activity">
+                <p><a href="#" class="profile-link">Sarah</a> Commended on a Photo</p>
+                <p class="text-muted">5 mins ago</p>
+              </div>
+            </div>
+            <div class="feed-item">
+              <div class="live-activity">
+                <p><a href="#" class="profile-link">Sarah</a> Has posted a photo</p>
+                <p class="text-muted">an hour ago</p>
+              </div>
+            </div>
+            <div class="feed-item">
+              <div class="live-activity">
+                <p><a href="#" class="profile-link">Sarah</a> Liked her friend's post</p>
+                <p class="text-muted">4 hours ago</p>
+              </div>
+            </div>
+            <div class="feed-item">
+              <div class="live-activity">
+                <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
+                <p class="text-muted">a day ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

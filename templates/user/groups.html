@@ -1,0 +1,163 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Groups 
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+<!-- Timeline
+      ================================================= -->
+<div class="timeline">
+  <div class="timeline-cover">
+
+    <!--Timeline Menu for Large Screens-->
+    <div class="timeline-nav-bar hidden-sm hidden-xs">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="profile-info">
+            <img src="{% static 'user/images/users/user-1.jpg' %}" alt="" class="img-responsive profile-photo" />
+            <h3>Sarah Cruiz</h3>
+            <p class="text-muted">Creative Director</p>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <ul class="list-inline profile-menu">
+            <li><a href="/userpost">POST</a></li>
+            <li><a href="/userabout" class="active">ABOUT</a></li>
+            <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+            <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+          </ul>
+        </div>
+      </div>
+    </div><!--Timeline Menu for Large Screens End-->
+
+    <!--Timeline Menu for Small Screens-->
+    <div class="navbar-mobile hidden-lg hidden-md">
+      <div class="profile-info">
+        <img src="{% static 'user/images/users/user-1.jpg' %}" alt="" class="img-responsive profile-photo" />
+        <h4>Sarah Cruiz</h4>
+        <p class="text-muted">Creative Director</p>
+      </div>
+      <div class="mobile-menu">
+        <ul class="list-inline profile-menu">
+          <li><a href="/userpost">POST</a></li>
+          <li><a href="/userabout" class="active">ABOUT</a></li>
+          <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+          <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+        </ul>
+      </div>
+    </div><!--Timeline Menu for Small Screens End-->
+
+  </div>
+  <div id="page-contents">
+    <div class="row">
+      <!--Edit Profile Menu-->
+      <div class="col-md-3">
+        <ul class="edit-menu">
+          <li><i style="font-size:18px" class="fa">&#xf05a;</i><a href="/basicinfo">Basic Information</a></li>
+          <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/education">Education </a></li>
+          <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/career">Career </a></li>
+          <li class="active"><i style="font-size:18px" class="fa">&#xf0c0;</i><a href="/groups">Group's</a></li>
+          <li><i style='font-size:18px' class='fa'>&#xf004;</i><a href="/myinterests">My Interests</a></li>
+          <li><i style="font-size:18px" class="fa">&#xf013;</i><a href="/accountsetting">Account Settings</a></li>
+          <li><i style="font-size:18px" class="fa">&#xf023;</i></i><a href="/changepassword">Change Password</a></li>
+          <li><i class="fa fa-sign-out" style="font-size:18px"></i><a href="/logoutuser">Logout</a></li>
+      </ul>
+      </div>
+      <!--Edit Profile Menu End -->
+      <div class="col-md-7">
+
+        <!-- Edit Group Name 
+              ================================================= -->
+        <div class="edit-profile-container">
+          <div class="block-title">
+            <h4 class="grey"><i style="font-size:24px" class="fa">&#xf0c0;</i>Group's </h4>
+            <div class="line"></div>
+          </div>
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          <div class="edit-block">
+            <form id="form" method="POST" name="education" id="education" class="form-inline"
+              enctype="multipart/form-data" action="/insert_groups">
+              {% csrf_token %}
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label for="name">Group Name </label>
+                  <input name="name" id="name" class="form-control input-group-lg" type="text"
+                    placeholder="Enter Your Group Name" />                  
+                  <!-- <input id="college" value="{{request.Colleges.colleges_name}}" class="form-control input-group-lg" type="text" name="college"  placeholder="Enter University/College Name" /> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xs-12">
+                    <label for="img">Group Logo</label>
+                    <input id="img" class="form-control input-group-lg" type="file" name="img"
+                        placeholder="Please Select Your Logo" />
+                </div>
+            </div>
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label for="description">Description</label>
+                  <textarea id="description" name="description" class="form-control"
+                    placeholder="Some texts about my education" rows="4" cols="400"></textarea>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>           
+        </div>
+        <div class="block-content block-content-full overflow-x-auto">
+          <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _js/pages/be_tables_datatables.js -->
+          <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 30px;">#</th>
+                <th class="d-sm-table-cell" style="width: 40%;">Group Name</th>
+                <th class="d-sm-table-cell" style="width: 30%;">Group Logo</th>
+                <th class="d-sm-table-cell" style="width: 60%;">Description</th>
+                <th class="d-sm-table-cell" style="width: 20%;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in data %}
+              <tr>
+                <td class="text-center fs-sm">{{forloop.counter}} </td>
+                <td class="d-sm-table-cell fs-sm">{{row.group_name}} </td>
+                <!-- <td class="text-center fs-sm">{{row.group_logo}} </td> -->
+                <td class="d-sm-table-cell fs-sm">
+                  <img src="{{ row.group_logo }}" width="100"/>
+                </td>
+                <td class="text-center fs-sm">{{row.description}} </td>
+                <td class="d-sm-table-cell">
+                  <div class="btn-group me-2 mb-2" role="group" aria-label="Icons File group">
+                    <!-- <button type="button" class="btn btn-primary">
+                            <i class="fa fa-fw fa-edit"></i>
+                          </button> -->
+                    <a href="/adminpanel/delete_groups/{{ row.groups_id }}" class="btn btn-danger">
+                      <i class="fa fa-fw fa-trash"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}

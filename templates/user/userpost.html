@@ -1,0 +1,116 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+User Post
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+    <!-- Timeline
+      ================================================= -->
+    <div class="timeline">
+        <div class="timeline-cover">
+
+            <!--Timeline Menu for Large Screens-->
+            <div class="timeline-nav-bar hidden-sm hidden-xs">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-info">
+                            <img src="{% static 'user/images/users/user-1.jpg' %}" alt=""
+                                class="img-responsive profile-photo" />
+                            <h3>{{request.user.first_name}}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="list-inline profile-menu">
+                            <li><a href="/userpost" class="active">POST</a></li>
+                            <li><a href="/userabout">ABOUT</a></li>
+                            <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+                            <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+                          </ul>
+                    </div>
+                </div>
+            </div><!--Timeline Menu for Large Screens End-->
+
+            <!--Timeline Menu for Small Screens-->
+            <div class="navbar-mobile hidden-lg hidden-md">
+                <div class="profile-info">
+                    <img src="{{data.profile}}" alt="" class="img-responsive profile-photo" />
+                    <h4>{{request.user.first_name}}</h4>
+                </div>
+                <div class="mobile-menu">
+                    <ul class="list-inline profile-menu">
+                        <li><a href="/userpost">POST</a></li>
+                        <li><a href="/userabout" class="active">ABOUT</a></li>
+                        <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+                    </ul>
+                    <button class="btn-primary">Add Friend</button>
+                </div>
+            </div><!--Timeline Menu for Small Screens End-->
+
+        </div>
+        <div id="page-contents">
+            <div class="row">
+                <!--Edit Profile Menu-->
+                <div class="col-md-3">
+                    <ul class="edit-menu">
+                        <li><i style="font-size:18px" class="fa">&#xf05a;</i><a href="/basicinfo">Basic Information</a>
+                        </li>
+                        <li class="active"><i style="font-size:18px" class="fa">&#xf19d;</i><a
+                                href="/education">Education </a></li>
+                        <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/career">Career </a></li>
+                        <li><i style="font-size:18px" class="fa">&#xf0c0;</i><a href="/groups">Group's</a></li>
+                        <li><i style='font-size:18px' class='fa'>&#xf004;</i><a href="/myinterests">My Interests</a>
+                        </li>
+                        <li><i style="font-size:18px" class="fa">&#xf013;</i><a href="/accountsetting">Account
+                                Settings</a></li>
+                        <li><i style="font-size:18px" class="fa">&#xf023;</i></i><a href="/changepassword">Change
+                                Password</a></li>
+                        <li><i class="fa fa-sign-out" style="font-size:18px"></i><a href="/logoutuser">Logout</a></li>
+                    </ul>
+                </div>
+                <!--Edit Profile Menu End -->
+                <div class="col-md-7">
+
+                    <!-- Edit Work and Education
+              ================================================= -->
+                    <div class="edit-profile-container">
+                        <div class="block-title">
+                            <h4 class="grey"><i style="font-size:24px" class="fa">&#xf19d;</i>My Education</h4>
+                            <div class="line"></div>
+                        </div>
+                        
+                        <div class="friend-list">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="friend-card">
+                                    <img src="{% static 'user/images/covers/9.jpg' %}" alt="profile-cover" class="img-responsive cover" />
+                                    <div class="card-info">
+                                        <img src="{% static 'user/images/users/user-6.jpg' %}" alt="user" class="profile-photo-lg" />
+                                        <div class="friend-info">
+                                        <a href="#" class="pull-right text-green">My Friend</a>
+                                        <h5><a href="timeline.html" class="profile-link">James Carter</a></h5>
+                                        <p>CEO at IT Farm</p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

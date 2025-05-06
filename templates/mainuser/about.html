@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vibenest - About Us</title>
+  <link rel="shortcut icon" href="{% static 'mainuser/assets/images/favicon.ico'%}" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      
+      background: linear-gradient(135deg, #cfdee75e, #89d71b90);
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #b2aa97, #f8b500);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    header p {
+      font-size: 1.2em;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      background: white;
+      padding: 30px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    }
+
+    .section h2 {
+      color: #4f46e5;
+      margin-bottom: 15px;
+    }
+
+    ul.features {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.features li::before {
+      content: "✔️";
+      margin-right: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #b2aa97, #f8b500);
+      color: #555;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+
+      .container {
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>About Us</h1>
+    <p>Vibenest - The Smart Way to Socialize! – Where Connections Come to Life</p>
+  </header>
+
+  <div class="container">
+    <div class="section">
+      <h2><li>Who We Are</li></h2>
+      <p>We created <strong>Vibenest - The Smart Way to Socialize!</strong> to help people connect, share, and enjoy life together. Whether you're chatting with friends, sharing a memory, or finding new interests — we're here for you.</p>
+    </div>
+
+    <div class="section">
+      <h2><li>What We Offer</li></h2>
+      <ul class="features">
+        <li>Post & Share photos, videos, and stories</li>
+        <li>Chat instantly with friends and followers</li>
+        <li>Discover new people and communities</li>
+        <li>Privacy-first design to keep your data safe</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2><li>Our Mission</li></h2>
+      <p>We believe in a world where everyone is free to express themselves, feel welcomed, and stay connected with the people who matter most. That’s why we built <strong>Vibenest - The Smart Way to Socialize!</strong>.</p>
+    </div>
+
+    <div class="section">
+      <h2><li>Join the Movement</li></h2>
+      <p>Millions of users are already exploring, sharing, and growing with <strong>Vibenest - The Smart Way to Socialize!</strong>. Come be a part of the journey. Your world, your people, your place.</p>
+    </div>
+  </div>
+
+  <footer>
+    <h3>&copy; 2025 Vibenest - The Smart Way to Socialize!. All Rights Reserved.</h3>
+  </footer>
+
+</body>
+</html>

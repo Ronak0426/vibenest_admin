@@ -1,0 +1,187 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Education 
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+<!-- Timeline
+      ================================================= -->
+<div class="timeline">
+  <div class="timeline-cover">
+
+    <!--Timeline Menu for Large Screens-->
+    <div class="timeline-nav-bar hidden-sm hidden-xs">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="profile-info">
+            <img src="{% static 'user/images/users/user-1.jpg' %}" alt="" class="img-responsive profile-photo" />
+            <h3>{{request.user.first_name}}</h3>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <<ul class="list-inline profile-menu">
+            <li><a href="/userpost">POST</a></li>
+            <li><a href="/userabout" class="active">ABOUT</a></li>
+            <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+            <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+          </ul>
+        </div>
+      </div>
+    </div><!--Timeline Menu for Large Screens End-->
+
+    <!--Timeline Menu for Small Screens-->
+    <div class="navbar-mobile hidden-lg hidden-md">
+      <div class="profile-info">
+        <img src="{{data.profile}}" alt="" class="img-responsive profile-photo" />
+        <h4>{{request.user.first_name}}</h4>
+      </div>
+      <div class="mobile-menu">
+        <ul class="list-inline profile-menu">
+          <li><a href="/userpost">POST</a></li>
+          <li><a href="/userabout" class="active">ABOUT</a></li>
+          <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+          <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+        </ul>
+        <button class="btn-primary">Add Friend</button>
+      </div>
+    </div><!--Timeline Menu for Small Screens End-->
+
+  </div>
+  <div id="page-contents">
+    <div class="row">
+      <!--Edit Profile Menu-->
+      <div class="col-md-3">
+        <ul class="edit-menu">
+          <li><i style="font-size:18px" class="fa">&#xf05a;</i><a href="/basicinfo">Basic Information</a></li>
+          <li class="active"><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/education">Education </a></li>
+          <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/career">Career </a></li>
+          <li><i style="font-size:18px" class="fa">&#xf0c0;</i><a href="/groups">Group's</a></li>
+          <li><i style='font-size:18px' class='fa'>&#xf004;</i><a href="/myinterests">My Interests</a></li>
+          <li><i style="font-size:18px" class="fa">&#xf013;</i><a href="/accountsetting">Account Settings</a></li>
+          <li><i style="font-size:18px" class="fa">&#xf023;</i></i><a href="/changepassword">Change Password</a></li>
+          <li><i class="fa fa-sign-out" style="font-size:18px"></i><a href="/logoutuser">Logout</a></li>
+      </ul>
+      </div>
+      <!--Edit Profile Menu End -->
+      <div class="col-md-7">
+
+        <!-- Edit Work and Education
+              ================================================= -->
+        <div class="edit-profile-container">
+          <div class="block-title">
+            <h4 class="grey"><i style="font-size:24px" class="fa">&#xf19d;</i>My Education</h4>
+            <div class="line"></div>
+          </div>
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          <div class="edit-block">
+            <form id="form" method="POST" name="education" id="education" class="form-inline"
+              enctype="multipart/form-data" action="/insert_education">
+              {% csrf_token %}
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label for="college">My University/College </label>
+
+                  <select name="college" id="college" class="form-control input-group-lg" type="text"
+                    placeholder="Enter University/College Name" />
+                  <option value="">Please Select Your College </option>
+                  {% for row in college %}
+                  <option value="{{row.colleges_id}}">{{row.colleges_name}}</option>
+                  {% endfor %}
+                  </select>
+                  <!-- <input id="college" value="{{request.Colleges.colleges_name}}" class="form-control input-group-lg" type="text" name="college"  placeholder="Enter University/College Name" /> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label for="degree">My Degree </label>
+
+                  <select name="degree" id="degree" class="form-control input-group-lg" type="text"
+                    placeholder="Enter Your Degree" />
+                  <option value="">Please Select Your Degree </option>
+                  {% for row in degree %}
+                  <option value="{{row.degree_id}}">{{row.degree_name}}</option>
+                  {% endfor %}
+                  </select>
+                  <!-- <input id="degree" value="{{request.Degrees.degree_name}}" class="form-control input-group-lg" type="text" name="degree" placeholder="Enter Your Degree"  /> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xs-6">
+                  <label for="start-year">Start Year</label>
+                  <input id="start-year" class="form-control input-group-lg" type="text" name="start-year"
+                    title="Enter a Date" placeholder="College Start Year" />
+                </div>
+                <div class="form-group col-xs-6">
+                  <label for="end-year" class="">End Year</label>
+                  <input id="end-year" class="form-control input-group-lg" type="text" name="end-year"
+                    title="Enter a Date" placeholder="College End Year" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label for="description">Description</label>
+                  <textarea id="description" name="description" class="form-control"
+                    placeholder="Some texts about my education" rows="4" cols="400"></textarea>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>           
+        </div>
+        <div class="block-content block-content-full overflow-x-auto">
+          <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _js/pages/be_tables_datatables.js -->
+          <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 30px;">#</th>
+                <th class="d-sm-table-cell" style="width: 30%;">College </th>
+                <th class="d-sm-table-cell" style="width: 30%;">Degree</th>
+                <th class="d-sm-table-cell" style="width: 60%;">Start Year</th>
+                <th class="d-sm-table-cell" style="width: 60%;">End Year</th>
+                <th class="d-sm-table-cell" style="width: 20%;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in data %}
+              <tr>
+                <td class="text-center fs-sm">{{forloop.counter}}</td>
+                <td class="text-center fs-sm">{{row.colleges_id.colleges_name}}</td>
+                <td class="text-center fs-sm">{{row.degree_id.degree_name}}</td>
+                <td class="text-center fs-sm">{{row.start_year}}</td>
+                <td class="text-center fs-sm">{{row.end_year}}</td>
+                <td class="d-sm-table-cell">
+                  <div class="btn-group me-2 mb-2" role="group" aria-label="Icons File group">
+                    <!-- <button type="button" class="btn btn-primary">
+                      <i class="fa fa-fw fa-edit"></i>
+                    </button> -->
+                    <a href="/adminpanel/delete_education/{{ row.education_id }}" class="btn btn-danger">
+                      <i class="fa fa-fw fa-trash"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>              
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}

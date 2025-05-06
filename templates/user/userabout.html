@@ -1,0 +1,146 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+User About
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+  <!-- Timeline
+      ================================================= -->
+  <div class="timeline">
+    <div class="timeline-cover">
+
+      <!--Timeline Menu for Large Screens-->
+      <div class="timeline-nav-bar hidden-sm hidden-xs">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="profile-info">
+              <img src="{% static 'user/images/users/user-1.jpg' %}" alt="" class="img-responsive profile-photo" />
+              <h3>{{request.user.first_name}}</h3>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <ul class="list-inline profile-menu">
+              <li><a href="/userpost">POST</a></li>
+              <li><a href="/userabout" class="active">ABOUT</a></li>
+              <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+              <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+            </ul>
+          </div>
+        </div>
+      </div><!--Timeline Menu for Large Screens End-->
+
+      <!--Timeline Menu for Small Screens-->
+      <div class="navbar-mobile hidden-lg hidden-md">
+        <div class="profile-info">
+          {% for erow in extrainfo %}
+          {% if erow.user_id.id == row.friend_id.id %}
+          <img src="{{erow.profile}}" alt="user" class="profile-photo-lg" />
+          {% endif %}
+          {% endfor %}
+          <h4>{{request.user.first_name}}</h4>
+        </div>
+        <div class="mobile-menu">
+          <ul class="list-inline profile-menu">
+            <li><a href="/userpost">POST</a></li>
+            <li><a href="/userabout" class="active">ABOUT</a></li>
+            <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+          </ul>
+          <button class="btn-primary">Add Friend</button>
+        </div>
+      </div><!--Timeline Menu for Small Screens End-->
+
+    </div>
+    <div id="page-contents">
+      <div class="row">
+        <!--Edit Profile Menu-->
+        <div class="col-md-3">
+          <ul class="edit-menu">
+            <li><i style="font-size:18px" class="fa">&#xf05a;</i><a href="/basicinfo">Basic Information</a>
+            </li>
+            <li class="active"><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/education">Education </a></li>
+            <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/career">Career </a></li>
+            <li><i style="font-size:18px" class="fa">&#xf0c0;</i><a href="/groups">Group's</a></li>
+            <li><i style='font-size:18px' class='fa'>&#xf004;</i><a href="/myinterests">My Interests</a>
+            </li>
+            <li><i style="font-size:18px" class="fa">&#xf013;</i><a href="/accountsetting">Account
+                Settings</a></li>
+            <li><i style="font-size:18px" class="fa">&#xf023;</i></i><a href="/changepassword">Change
+                Password</a></li>
+            <li><i class="fa fa-sign-out" style="font-size:18px"></i><a href="/logoutuser">Logout</a></li>
+          </ul>
+        </div>
+        <!--Edit Profile Menu End -->
+        <div class="col-md-7">
+
+          <!-- Edit Work and Education
+              ================================================= -->
+          <div class="edit-profile-container">
+            <div class="block-title">
+              <h4 class="grey"><i style="font-size:24px" class="fa">&#xf19d;</i>My Education</h4>
+              <div class="line"></div>
+            </div>
+
+
+            <div id="page-contents">
+              <div class="row">
+                <div class="col-md-7">
+                  
+                  <img src="{% static 'user/images/post-images/12.jpg' %}" alt="post-image" class="img-responsive post-image" />
+                  <div class="post-container">
+                    <img src="{% static 'user/images/users/user-1.jpg' %}" alt="user" class="profile-photo-md pull-left" />
+                    <div class="post-detail">
+                      <div class="user-info">
+                        <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span
+                            class="following">following</span></h5>
+                        <p class="text-muted">Published a photo about 15 mins ago</p>
+                      </div>
+                      <div class="reaction">
+                        <a class="btn text-green"><i class="icon ion-thumbsup"></i> 13</a>
+                        <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                      </div>
+                      <div class="line-divider"></div>
+                      <div class="post-text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                          laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                          non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i
+                            class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i>
+                        </p>
+                      </div>
+                      <div class="line-divider"></div>
+                      <div class="post-comment">
+                        <img src="{% static 'user/images/users/user-11.jpg' %}" alt="" class="profile-photo-sm" />
+                        <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem
+                          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                      </div>
+                      <div class="post-comment">
+                        <img src="{% static 'user/images/users/user-4.jpg' %}" alt="" class="profile-photo-sm" />
+                        <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur
+                          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                          minim veniam, quis nostrud </p>
+                      </div>
+                      <div class="post-comment">
+                        <img src="{% static 'user/images/users/user-1.jpg' %}" alt="" class="profile-photo-sm" />
+                        <input type="text" class="form-control" placeholder="Post a comment">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endblock %}

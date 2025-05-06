@@ -1,0 +1,55 @@
+{% extends 'mainuser/master.html' %}
+{% load static %}
+
+{% block 'title' %}
+Vibenest - My Friends Suggestions
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+<div class="container">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between">
+               <div class="header-title">
+                  <h4 class="card-title"> Suggestions for You </h4>
+               </div>
+            </div>
+            <div class="card-body pt-0">
+               <ul class="request-list list-inline m-0 p-0">
+                  {% for row in data %}
+                  <li class="d-flex align-items-center justify-content-between">
+                     <div class="d-flex align-items-center">
+                        <div class="user-img img-fluid flex-shrink-0">
+                           {% for erow in extrainfo %}
+                           {% if erow.user_id.id == row.id %}
+                           <img src="{{erow.profile}}" alt="story-img"
+                              class="avatar-60 avatar-borderd object-cover avatar-rounded img-fluid d-inline-block">
+                           {% endif %}
+                           {% endfor %}
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                           <h6> <a href="/myfriendrequestprofile/{{row.id}}"> {{row.first_name}} </a> </h6>
+                           <p class="mb-0">{{row.friend_count}} friends</p>
+                        </div>
+                     </div>
+                     <div class="d-flex align-items-center mt-2 mt-md-0">
+                        <form method="post" action="/addafriend">
+                           {% csrf_token %}
+                           <input type="hidden" value="{{row.id}}" name="fid"/>
+                           <button type="submit" class="btn btn-primary">Add Friend</button>
+                         </form>
+                     </div>
+                  </li>
+                  {% endfor %}
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

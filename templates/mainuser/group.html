@@ -1,0 +1,138 @@
+{% extends 'mainuser/master.html' %}
+{% load static %}
+
+{% block 'title' %}
+Vibenest -Group
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+<div>
+    <div class="position-relative">
+        <!-- Page Content  -->
+        <div class="header-for-bg">
+            <div class="background-header position-relative">
+                <img src="{% static 'mainuser/assets/images/page-img/profile-bg7.jpg'%}" class="img-fluid w-100" alt="header-bg"
+                    loading="lazy">
+                <div class="title-on-header">
+                    <div class="data-block">
+                       <marquee behavior="" direction=""><h2>Groups</h2></marquee> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Content  -->
+    </div>
+    <div class="content-inner " id="page_layout">
+        <div class="container">
+            <h2>My Groups</h2><br/>
+            <div class="d-grid gap-3 d-grid-template-1fr-19">
+                
+                {% for row in data %}
+                <div class="card group-box"> 
+                    <div class="top-bg-image">
+                        <img src="{% static 'mainuser/assets/images/page-img/profile-bg9.jpg'%}" class="img-fluid w-100"
+                            alt="group-bg" loading="lazy">
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="group-icon">
+                            <img src="{{ row.group_logo }}" alt="profile-img"
+                                class="rounded-2 img-fluid avatar-90 border border-4" loading="lazy">
+                        </div>
+                        <div class="group-info mt-3 mb-2">
+                            <a href="/groupdetails/{{row.groups_id}}" class="h4">{{row.group_name}}</a>
+                        </div>
+                        <div class="group-details pb-4 mb-4 border-bottom">
+                            <ul class="d-flex align-items-center justify-content-center list-inline m-0 p-0 gap-3">
+                                <li>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span class="material-symbols-outlined font-size-18">
+                                            group
+                                        </span>
+                                        <span class="text-capitalize">{{row.user_id.first_name}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <h2>Other Groups</h2><br/>
+            <div class="d-grid gap-3 d-grid-template-1fr-19">
+                
+                {% for row in otherdata %}
+                <div class="card group-box"> 
+                    <div class="top-bg-image">
+                        <img src="{% static 'mainuser/assets/images/page-img/profile-bg9.jpg'%}" class="img-fluid w-100"
+                            alt="group-bg" loading="lazy">
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="group-icon">
+                            <img src="{{ row.group_logo }}" alt="profile-img"
+                                class="rounded-2 img-fluid avatar-90 border border-4" loading="lazy">
+                        </div>
+                        <div class="group-info mt-3 mb-2">
+                            <a href="/groupdetails/{{row.groups_id}}" class="h4">{{row.group_name}}</a>
+                        </div>
+                        <div class="group-details pb-4 mb-4 border-bottom">
+                            <ul class="d-flex align-items-center justify-content-center list-inline m-0 p-0 gap-3">
+                                <li>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span class="material-symbols-outlined font-size-18">
+                                            group
+                                        </span>
+                                        <span class="text-capitalize">{{row.user_id.first_name}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- <div class="group-member mb-4">
+                            <div class="iq-media-group">
+                                <a href="#" class="iq-media">
+                                    <img class="img-fluid avatar-30 rounded-circle"
+                                        src="{% static 'mainuser/assets/images/user/05.jpg'%}" alt="" loading="lazy">
+                                </a>
+                                <a href="#" class="iq-media">
+                                    <img class="img-fluid avatar-30 rounded-circle"
+                                        src="{% static 'mainuser/assets/images/user/06.jpg'%}" alt="" loading="lazy">
+                                </a>
+                                <a href="#" class="iq-media">
+                                    <img class="img-fluid avatar-30 rounded-circle"
+                                        src="{% static 'mainuser/assets/images/user/07.jpg'%}" alt="" loading="lazy">
+                                </a>
+                                <a href="#" class="iq-media">
+                                    <img class="img-fluid avatar-30 rounded-circle"
+                                        src="{% static 'mainuser/assets/images/user/08.jpg'%}" alt="" loading="lazy">
+                                </a>
+                                <a href="#" class="iq-media">
+                                    <img class="img-fluid avatar-30 rounded-circle"
+                                        src="{% static 'mainuser/assets/images/user/09.jpg'%}" alt="" loading="lazy">
+                                </a>
+                                <a href="#" class="iq-media">
+                                    <img class="img-fluid avatar-30 rounded-circle"
+                                        src="{% static 'mainuser/assets/images/user/10.jpg'%}" alt="" loading="lazy">
+                                </a>
+                            </div>
+                        </div> -->
+                        <div class="text-center">
+                            <form method="POST" action="/leavegroup">
+                                {% csrf_token %}
+                                <input type="hidden" name="gid" value="{{row.groups_id}}" />
+                                <input type="hidden" name="uid" value="{{request.user.id}}" />
+                                <button type="submit" class="btn btn-danger-subtle fw-semibold px-3">Leave
+                                    Group</button>
+                            </form>
+                           
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

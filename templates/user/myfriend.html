@@ -1,0 +1,169 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+My Friend
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div id="page-contents">
+  <div class="container">
+    <div class="row">
+
+      <!-- Newsfeed Common Side Bar Left
+      ================================================= -->
+      <div class="col-md-3" style="position:static;">
+        <div class="profile-card">
+          {% for erow in extrainfo %}
+          {% if erow.user_id.id == request.user.id %}
+          <img src="{{erow.profile}}" alt="user" class="profile-photo" />
+          {% endif %}
+          {% endfor %}
+          <h5><a href="/basicinfo" class="text-white">{{request.user.first_name}}</a></h5>
+          <a href="#" class="text-white"><i class="ion ion-android-person-add"></i> 1,299 followers</a>
+
+        </div>
+        <!--profile card ends-->
+        <ul class="nav-news-feed">
+          <li><i class="icon ion-ios-paper"></i>
+            <div><a href="/newsfeed">Newsfeed</a></div>
+          </li>
+          <li><i class="icon ion-ios-people"></i>
+            <div><a href="/friendsuggestion">People Nearby</a></div>
+          </li>
+          <li><i class="icon ion-ios-people-outline"></i>
+            <div><a href="/myfriend">Friends</a></div>
+          </li>
+          <li><i class="icon ion-chatboxes"></i>
+            <div><a href="/chatroom">Messages</a></div>
+          </li>
+          <!-- <li><i class="icon ion-images"></i>
+            <div><a href="newsfeed-images.html">Images</a></div>
+          </li>
+          <li><i class="icon ion-ios-videocam"></i>
+            <div><a href="newsfeed-videos.html">Videos</a></div>
+          </li> -->
+          <li><i class="fa fa-sign-out"></i>
+            <div><a href="/logoutuser">Logout</a></div>
+          </li>
+        </ul><!--news-feed links ends-->
+        <div id="chat-block">
+          <div class="title">Chat online</div>
+          <ul class="online-users list-inline">
+            <li><a href="newsfeed-messages.html" title="Linda Lohan"><img
+                  src="{% static 'user/images/users/user-2.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="Sophia Lee"><img
+                  src="{% static 'user/images/users/user-3.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="John Doe"><img src="{% static 'user/images/users/user-4.jpg' %}"
+                  alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="Alexis Clark"><img
+                  src="{% static 'user/images/users/user-5.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="James Carter"><img
+                  src="{% static 'user/images/users/user-6.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="Robert Cook"><img
+                  src="{% static 'user/images/users/user-7.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="Richard Bell"><img
+                  src="{% static 'user/images/users/user-8.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="Anna Young"><img
+                  src="{% static 'user/images/users/user-9.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+            <li><a href="newsfeed-messages.html" title="Julia Cox"><img
+                  src="{% static 'user/images/users/user-10.jpg' %}" alt="user"
+                  class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+          </ul>
+        </div><!--chat block ends-->
+      </div>
+
+      <div class="col-md-7">
+
+        <!-- Post Create Box
+        ================================================= -->
+        <div class="create-post">
+          <div class="row">
+            <div class="col-md-7 col-sm-7">
+              <div class="form-group">
+                <img src="{% static 'user/images/users/user-1.jpg' %}" alt="" class="profile-photo-md" />
+                <textarea name="texts" id="exampleTextarea" cols="30" rows="1" class="form-control"
+                  placeholder="Write what you wish"></textarea>
+              </div>
+            </div>
+            <div class="col-md-5 col-sm-5">
+              <div class="tools">
+                <ul class="publishing-tools list-inline">
+                  <li><a href="#"><i class="ion-compose"></i></a></li>
+                  <li><a href="#"><i class="ion-images"></i></a></li>
+                  <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                  <li><a href="#"><i class="ion-map"></i></a></li>
+                </ul>
+                <button class="btn btn-primary pull-right">Publish</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post Create Box End -->
+
+        <!-- Friend List
+        ================================================= -->
+
+        <div class="friend-list">
+          <div class="row">
+            {% for row in data %}
+            <div class="col-md-6 col-sm-6">
+              <div class="friend-card">
+                <img src="{% static 'user/images/covers/1.jpg' %}" alt="profile-cover" class="img-responsive cover" />
+                <div class="card-info">
+                  {% for erow in extrainfo %}
+                  {% if erow.user_id.id == row.id %}
+                  <img src="{{erow.profile}}" alt="user" class="profile-photo-lg" />
+                  {% endif %}
+                  {% endfor %}
+                  <div class="friend-info">
+                    <a href="#" class="pull-right text-green">My Friend</a>
+                    <h5><a href="/timelineabout/{{row.id}}" class="profile-link">{{row.first_name}}</a></h5>
+                    <p>Student at Harvard</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Newsfeed Common Side Bar Right
+      ================================================= -->
+      <div class="col-md-2 static">
+        <div class="suggestions" id="sticky-sidebar">
+          <h4 class="grey">Suggested for You </h4>
+          {% for row in data %}
+          <div class="follow-user">
+            {% for erow in extrainfo %}
+            {% if erow.user_id.id == row.id %}
+            <img src="{{erow.profile}}" alt="user" class="profile-photo-sm pull-left" />
+            {% endif %}
+            {% endfor %}
+            <div>
+              <h5><a href="/timelineabout/{{row.id}}">{{row.first_name}} </a></h5>
+              <a href="#" class="text-green">Add friend</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

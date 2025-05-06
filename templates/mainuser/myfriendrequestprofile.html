@@ -1,0 +1,910 @@
+{% extends 'mainuser/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Vibenest - My Friends Profile
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+<div>
+   <div class="position-relative">
+   </div>
+   <div class="content-inner " id="page_layout">
+      <div class="container position-relative p-0">
+         <div class="header-cover-img" style='background-image: url({% static 'mainuser/assets/images/page-img/profile-bg1.jpg'%}); background-size: cover; background-repeat:no-repeat;''>
+         </div>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-sm-12">
+               <div class="card profile-box">
+                  <div class="card-body">
+                     <div class="row align-items-center item-header-content">
+                        <div class="col-lg-4 profile-left">
+                           <div class="social-links">
+                              <ul
+                                 class="social-data-block d-flex align-items-center justify-content-center list-inline p-0 m-0">
+                                 <li class="text-center pe-3">
+                                    <a href="#"><img src="{% static 'mainuser/assets/images/icon/08.png'%}"
+                                          class="img-fluid rounded" alt="facebook" loading="lazy"></a>
+                                 </li>
+                                 <li class="text-center pe-3">
+                                    <a href="#"><img src="{% static 'mainuser/assets/images/icon/10.png'%}"
+                                          class="img-fluid rounded" alt="Instagram" loading="lazy"></a>
+                                 </li>
+                                 <li class="text-center md-pe-3 pe-0">
+                                    <a href="#"><img src="{% static 'mainuser/assets/images/icon/13.png'%}"
+                                          class="img-fluid rounded" alt="linkedin" loading="lazy"></a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 text-center profile-center">
+                           <div class="header-avatar position-relative d-inline-block">
+                              <img src="{{userextrainfo.profile}}" alt="user"
+                                 class="avatar-150 border border-4 border-white rounded-3">
+                           <h5 class="d-flex align-items-center justify-content-center gap-1 mb-2">{{userdata.first_name}} </h5>
+                        </div>
+                        </div>
+                        <div class="col-lg-4 profile-right">
+                           <ul class="user-meta list-inline p-0 d-flex align-items-center justify-content-center">
+                              <li>
+                                 <h5>{{postcount}}</h5>Posts
+                              </li>
+                              <li>
+                                 <h5>{{commentcount}}</h5>Comment
+                              </li>
+                              <li>
+                                 <h5>{{friendcount}}</h5>Friends
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="card">
+                  <div class="card-body p-0">
+                     <div class="user-tabing item-list-tabs">
+                        <ul
+                           class="nav nav-pills d-flex align-items-center justify-content-center profile-feed-items p-0 m-0 rounded">
+                           <li class="nav-item col-12 col-sm-3">
+                              <a class="nav-link active d-flex flex-md-column align-items-center flex-row justify-content-center gap-2"
+                                 href="#pills-timeline-tab" data-bs-toggle="pill" data-bs-target="#timeline"
+                                 role="button">
+                                 <span class="icon rounded-3"><span
+                                       class="material-symbols-outlined">calendar_month</span></span>
+                                 <p class="mb-0 mt-0 mt-md-3">Timeline</p>
+                              </a>
+                           </li>
+                           <li class="nav-item col-12 col-sm-3">
+                              <a class="nav-link d-flex flex-md-column align-items-center flex-row justify-content-center gap-2"
+                                 href="#pills-about-tab" data-bs-toggle="pill" data-bs-target="#about" role="button">
+                                 <span class="icon rounded-3"><span
+                                       class="material-symbols-outlined">person</span></span>
+                                 <p class="mb-0 mt-0 mt-md-3">About</p>
+                              </a>
+                           </li>
+                           <li class="nav-item col-12 col-sm-3">
+                              <a class="nav-link d-flex flex-md-column align-items-center flex-row justify-content-center gap-2"
+                                 href="#pills-friends-tab" data-bs-toggle="pill" data-bs-target="#friends"
+                                 role="button">
+                                 <span class="icon rounded-3"><span
+                                       class="material-symbols-outlined">group</span></span>
+                                 <p class="mb-0 mt-0 mt-md-3">Friends</p>
+                              </a>
+                           </li>
+                           <li class="nav-item col-12 col-sm-3">
+                              <a class="nav-link d-flex flex-md-column align-items-center flex-row justify-content-center gap-2"
+                                 href="#pills-photos-tab" data-bs-toggle="pill" data-bs-target="#photos" role="button">
+                                 <span class="icon rounded-3"><span
+                                       class="material-symbols-outlined">image</span></span>
+                                 <p class="mb-0 mt-0 mt-md-3">Photos</p>
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-12">
+               <div class="tab-content">
+                  <div class="tab-pane fade show active" id="timeline" role="tabpanel">
+                     <div class="card-body p-0">
+                        <div class="row">
+                           <div class="col-lg-4">
+                              <div class="card">
+                                 <!-- <div class="card-body">
+                                    <a href="#" class="d-inline-flex align-items-center"><span
+                                          class="badge badge-pill bg-primary font-weight-normal me-1 material-symbols-outlined md-14">grade</span><span>27
+                                          Items for you</span></a>
+                                 </div> -->
+                              </div>
+                              <div class="card">
+                                 <div class="card-header d-flex justify-content-between border-bottom">
+                                    <div class="header-title">
+                                       <h4 class="card-title">Group</h4>
+                                    </div>
+                                    <div class="card-header-toolbar d-flex align-items-center">
+                                    </div>
+                                 </div>
+                                 <div class="card-body">
+                                    <div class="row">
+                                       <div class="col-sm-12">
+                                          {% for grow in grpdata %}
+                                          <div class="event-post position-relative">
+                                             <a href="#"><img src="{{grow.group_logo}}"
+                                                   alt="gallary-image" class="img-fluid rounded" loading="lazy"></a>
+                                            
+                                             <div class="card-body text-center p-2">
+                                                <h5>{{grow.group_name}}</h5>
+                                             </div>
+                                          </div>
+                                          {% endfor %}
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-8">
+                              <div class="row">
+                                 <div class="col-sm-12">
+                                    <div id="post-modal-data"
+                                       class="card card-block card-stretch card-height create-post-modal">
+                                       <div class="modal fade" id="post-modal" tabindex="-1"
+                                          aria-labelledby="post-modalLabel" aria-hidden="true">
+                                          <div class="modal-dialog modal-fullscreen-sm-down">
+                                             <div class="modal-content">
+                                                <div class="modal-header">
+                                                   <h5 class="modal-title" id="post-modalLabel">Create Post</h5>
+                                                   <a href="javascript:void(0);" class="lh-1" data-bs-dismiss="modal">
+                                                      <span class="material-symbols-outlined">close</span>
+                                                   </a>
+                                                </div>
+                                                <div class="modal-body">
+                                                   <div class="d-flex align-items-center">
+                                                      <div class="user-img">
+                                                         <img src="{% static 'mainuser/assets/images/user/1.jpg'%}"
+                                                            alt="userimg" class="avatar-60 rounded-circle img-fluid"
+                                                            loading="lazy">
+                                                      </div>
+                                                      <form class="post-text ms-3 w-100" action="javascript:void();">
+                                                         <input type="text" class="form-control rounded"
+                                                            placeholder="Write something here..." style="border:none;">
+                                                      </form>
+                                                   </div>
+                                                   <hr>
+                                                   <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  add_a_photo
+                                                               </span>
+                                                               Photo/Video
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  group
+                                                               </span>
+                                                               Tag Friend
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  sentiment_satisfied
+                                                               </span>
+                                                               Feeling/Activity
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  location_on
+                                                               </span>
+                                                               Check in
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  live_tv
+                                                               </span>
+                                                               Live Video
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  gif_box
+                                                               </span>
+                                                               GIF
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  celebration
+                                                               </span>
+                                                               Watch Party
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                      <li class="col-md-6 mb-3">
+                                                         <div class="bg-primary-subtle rounded p-2 pointer me-3">
+                                                            <a href="javascript:void(0);"
+                                                               class="d-inline-block fw-medium text-body">
+                                                               <span
+                                                                  class="material-symbols-outlined align-middle font-size-20 me-1">
+                                                                  sports_esports
+                                                               </span>
+                                                               Play with Friends
+                                                            </a>
+                                                         </div>
+                                                      </li>
+                                                   </ul>
+                                                   <hr>
+                                                   <div class="other-option">
+                                                      <div class="d-flex align-items-center justify-content-between">
+                                                         <div class="d-flex align-items-center">
+                                                            <div class="user-img me-3">
+                                                               <img
+                                                                  src="{% static 'mainuser/assets/images/user/1.jpg'%}"
+                                                                  alt="userimg"
+                                                                  class="avatar-60 rounded-circle img-fluid">
+                                                            </div>
+                                                            <h6>Your Story</h6>
+                                                         </div>
+                                                         <div class="card-post-toolbar">
+                                                            <div class="dropdown">
+                                                               <span class="dropdown-toggle" data-bs-toggle="dropdown"
+                                                                  aria-haspopup="true" aria-expanded="false"
+                                                                  role="button">
+                                                                  <span class="btn btn-primary">Friend</span>
+                                                               </span>
+                                                               <div class="dropdown-menu m-0 p-0">
+                                                                  <a class="dropdown-item p-3" href="#">
+                                                                     <div class="d-flex align-items-top">
+                                                                        <span class="material-symbols-outlined">
+                                                                           save
+                                                                        </span>
+                                                                        <div class="data ms-2">
+                                                                           <h6>Public</h6>
+                                                                           <p class="mb-0">Anyone on or off Facebook</p>
+                                                                        </div>
+                                                                     </div>
+                                                                  </a>
+                                                                  <a class="dropdown-item p-3" href="#">
+                                                                     <div class="d-flex align-items-top">
+                                                                        <span class="material-symbols-outlined">
+                                                                           cancel
+                                                                        </span>
+                                                                        <div class="data ms-2">
+                                                                           <h6>Friends</h6>
+                                                                           <p class="mb-0">Your Friend on facebook</p>
+                                                                        </div>
+                                                                     </div>
+                                                                  </a>
+                                                                  <a class="dropdown-item p-3" href="#">
+                                                                     <div class="d-flex align-items-top">
+                                                                        <span class="material-symbols-outlined">
+                                                                           person_remove
+                                                                        </span>
+                                                                        <div class="data ms-2">
+                                                                           <h6>Friends except</h6>
+                                                                           <p class="mb-0">Don't show to some friends
+                                                                           </p>
+                                                                        </div>
+                                                                     </div>
+                                                                  </a>
+                                                                  <a class="dropdown-item p-3" href="#">
+                                                                     <div class="d-flex align-items-top">
+                                                                        <span class="material-symbols-outlined">
+                                                                           notifications
+                                                                        </span>
+                                                                        <div class="data ms-2">
+                                                                           <h6>Only Me</h6>
+                                                                           <p class="mb-0">Only me</p>
+                                                                        </div>
+                                                                     </div>
+                                                                  </a>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <button type="submit"
+                                                      class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-12 social-post">
+                                    <div class="card card-block card-stretch card-height">
+                                       <div class="card-body">
+                                          {% for row in posts %}
+                                          <div class="user-post-data">
+                                             <div class="d-flex align-items-center justify-content-between">
+                                                <div class="me-3 flex-shrik-0">
+                                                   <img class="border border-2 rounded-circle user-post-profile"
+                                                      src="{{extrainfo.profile}}"
+                                                      alt="user-image" loading="lazy">
+                                                </div>
+                                                <div class="w-100">
+                                                   <div class="d-flex align-items-center justify-content-between">
+                                                      <div>
+                                                         <h6 class="mb-0 d-inline-block">{{row.user_id.first_name}}</h6>
+                                                         <span class="d-inline-block text-primary">
+                                                            <svg class="align-text-bottom" width="17" height="17"
+                                                               viewBox="0 0 17 17" fill="none"
+                                                               xmlns="http://www.w3.org/2000/svg">
+                                                               <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                  d="M11.8457 0H4.34822C1.73547 0 0.0974121 1.84995 0.0974121 4.46789V11.5321C0.0974121 14.1501 1.72768 16 4.34822 16H11.8449C14.4663 16 16.0974 14.1501 16.0974 11.5321V4.46789C16.0974 1.84995 14.4663 0 11.8457 0Z"
+                                                                  fill="currentColor" />
+                                                               <path d="M5.09741 7.99978L7.09797 9.9995L11.0974 6.00006"
+                                                                  stroke="white" stroke-width="1.5"
+                                                                  stroke-linecap="round" stroke-linejoin="round" />
+                                                            </svg>
+                                                         </span>
+                                                         <span
+                                                            class="mb-0 d-inline-block text-capitalize fw-medium">posted
+                                                            an
+                                                            update</span>
+                                                         <p class="mb-0">{{row.post_date_time}}</p>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="mt-4">
+                                             <p class="m-0">{{row.text}}</p>
+                                             <ul class="list-inline m-0 p-0 d-flex flex-wrap gap-1">
+                                                <li>
+                                                   <a href="javascript:void(0);">#friends</a>
+                                                </li>
+                                                <li>
+                                                   <a href="javascript:void(0);">#party</a>
+                                                </li>
+                                                <li>
+                                                   <a href="javascript:void(0);">#birthday</a>
+                                                </li>
+                                                <li>
+                                                   <a href="javascript:void(0);">#together</a>
+                                                </li>
+                                                <li>
+                                                   <a href="javascript:void(0);">#celebration</a>
+                                                </li>
+                                             </ul>
+                                          </div>
+                                          <div class="user-post mt-4">
+                                             {% if row.posttype == 'Image' %}
+                                             <a data-fslightbox="gallery" href="{{ row.img1 }}" class="rounded">
+                                                 <img src="{{ row.img1 }}" alt="post-image"
+                                                     class="img-fluid rounded w-100" loading="lazy">
+                                             </a> <br> <br> <br>
+                                             <div class="row">
+                                               <div class="col">
+                                                 <a data-fslightbox="gallery" href="{{ row.img2 }}" class="rounded">
+                                                   <img src="{{ row.img2 }}" style="height: 250px;" alt="post-image"
+                                                       class="img-fluid rounded w-100" loading="lazy">
+                                               </a>
+                                               </div>
+                                               <div class="col">
+                                                 <a data-fslightbox="gallery" href="{{ row.img3 }}" class="rounded">
+                                                   <img src="{{ row.img3 }}" style="height: 250px;" alt="post-image"
+                                                       class="img-fluid rounded w-100" loading="lazy">
+                                               </a>
+                                                </div>
+                                             </div>
+                                               {% else %}
+                                               <iframe width="560" height="315" src={{ row.video_url }} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                               {% endif %}
+                                          </div>
+                                       
+                                          <div class="post-meta-likes mt-4">
+                                             <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                <div class="d-inline-flex align-items-center gap-1">
+                                                   <span class="text-capitalize font-size-14 fw-medium" type="button"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#likemodal{{row.post_id}}">{{ row.likes_set.count }}
+                                                        others liked this</span>
+                                                </div>
+<div class="modal fade likemodal" id="likemodal{{row.post_id}}"
+tabindex="-1" aria-labelledby="likemodalLabel" aria-hidden="true">
+<div
+class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+<div class="modal-header">
+<ul class="nav nav-tabs liked-tabs" id="liked-tabs"
+role="tablist">
+<li class="nav-item" role="presentation">
+    <span class="nav-link active"
+        id="reaction-tab-1" data-bs-toggle="tab"
+        data-bs-target="#reaction-tab-all"
+        type="button" role="tab"
+        aria-controls="reaction-tab-all"
+        aria-selected="true">
+        <span class="align-middle">All</span>
+    </span>
+</li>
+
+</ul>
+<button type="button" class="btn-close"
+data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<div class="tab-content liked-tabs-content"
+id="liked-tabs-content">
+<div class="tab-pane fade show active"
+    id="reaction-tab-all" role="tabpanel"
+    aria-labelledby="reaction-tab-1" tabindex="0">
+    <ul class="list-inline m-0 p-0">
+        {% for lrow in likes %}
+        {% if lrow.post_id.post_id == row.post_id %}
+        <li class="mb-3">
+            <div
+                class="reaction-user-container d-flex align-items-center justify-content-between gap-3">
+                <div
+                    class="d-flex align-items-center gap-3 flex-shrnik-0">
+                    <div
+                        class="reaction-user-image flex-shrnik-0">
+                        {% for erow in allextrainfo %}
+                        {% if erow.user_id.id == lrow.user_id.id %}
+                           <img class="border border-2 rounded-circle avatar-50"
+                              src="{{erow.profile}}"
+                              alt="user"
+                              loading="lazy">
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="reaction-user-meta">
+                        <h6 class="mb-0">
+                            {{lrow.user_id.first_name}}
+                        </h6>
+                    </div>
+                </div>
+                <div class="reaction flex-shrnik-0">
+                    {% if lrow.status == 'Like' %}
+                    <img src="{% static 'mainuser/assets/images/icon/01.png'%}"
+                        class="img-fluid reaction-img"
+                        alt="like" loading="lazy">
+                    {% endif %}
+                    {% if lrow.status == 'Love' %}
+                    <img src="{% static 'mainuser/assets/images/icon/02.png'%}"
+                        class="img-fluid reaction-img"
+                        alt="like" loading="lazy">
+                    {% endif %}
+                    {% if lrow.status == 'Happy' %}
+                    <img src="{% static 'mainuser/assets/images/icon/03.png'%}"
+                        class="img-fluid reaction-img"
+                        alt="like" loading="lazy">
+                    {% endif %}
+                    {% if lrow.status == 'HaHa' %}
+                    <img src="{% static 'mainuser/assets/images/icon/04.png'%}"
+                        class="img-fluid reaction-img"
+                        alt="like" loading="lazy">
+                    {% endif %}
+                    {% if lrow.status == 'Think' %}
+                    <img src="{% static 'mainuser/assets/images/icon/05.png'%}"
+                        class="img-fluid reaction-img"
+                        alt="like" loading="lazy">
+                    {% endif %}
+                    {% if lrow.status == 'Sad' %}
+                    <img src="{% static 'mainuser/assets/images/icon/06.png'%}"
+                        class="img-fluid reaction-img"
+                        alt="like" loading="lazy">
+                    {% endif %}
+                    {% if lrow.status == 'Lovely' %}
+                    <img src="{% static 'mainuser/assets/images/icon/07.png'%}"
+                        class="img-fluid reaction-img"
+                        alt="like" loading="lazy">
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+        {%endif %}
+        {% endfor %}
+
+    </ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+                                             </div>
+                                          </div>
+                                          <div class="comment-area mt-4 pt-4 border-top">
+                                             <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                                 <div
+                                                     class="like-block position-relative d-flex align-items-center flex-shrink-0">
+                                                     <div class="like-data">
+                                                         <div class="dropdown">
+                                                             <span class="dropdown-toggle" data-bs-toggle="dropdown"
+                                                                 aria-haspopup="true" aria-expanded="false"
+                                                                 role="button">
+                                                                 <span
+                                                                     class="material-symbols-outlined align-text-top font-size-20">
+                                                                     thumb_up
+                                                                 </span>
+                                                                 <span class="fw-medium">{{ row.likes_set.count }} Likes</span>
+                                                             </span>
+                                                             <div class="dropdown-menu py-2 shadow">
+                                                                 <a class="ms-2 me-2"
+                                                                     href="/insert_likeprofile/{{row.post_id}}/Like/{{id}}"
+                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                     title="Like"><img
+                                                                         src="{% static 'mainuser/assets/images/icon/01.png'%}"
+                                                                         class="img-fluid" alt="like" loading="lazy"></a>
+                                                                 <a class="me-2" href="/insert_likeprofile/{{row.post_id}}/Love/{{id}}"
+                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                     title="Love"><img
+                                                                         src="{% static 'mainuser/assets/images/icon/02.png'%}"
+                                                                         class="img-fluid" alt="love" loading="lazy"></a>
+                                                                 <a class="me-2"
+                                                                     href="/insert_likeprofile/{{row.post_id}}/Happy/{{id}}"
+                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                     title="Happy"><img
+                                                                         src="{% static 'mainuser/assets/images/icon/03.png'%}"
+                                                                         class="img-fluid" alt="happy"
+                                                                         loading="lazy"></a>
+                                                                 <a class="me-2" href="/insert_likeprofile/{{row.post_id}}/HaHa/{{id}}"
+                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                     title="HaHa"><img
+                                                                         src="{% static 'mainuser/assets/images/icon/04.png'%}"
+                                                                         class="img-fluid" alt="haha" loading="lazy"></a>
+                                                                 <a class="me-2"
+                                                                     href="/insert_likeprofile/{{row.post_id}}/Think/{{id}}"
+                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                     title="Think"><img
+                                                                         src="{% static 'mainuser/assets/images/icon/05.png'%}"
+                                                                         class="img-fluid" alt="think"
+                                                                         loading="lazy"></a>
+                                                                 <a class="me-2" href="/insert_likeprofile/{{row.post_id}}/Sad/{{id}}"
+                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                     title="Sad"><img
+                                                                         src="{% static 'mainuser/assets/images/icon/06.png'%}"
+                                                                         class="img-fluid" alt="sad" loading="lazy"></a>
+                                                                 <a class="me-2"
+                                                                     href="/insert_likeprofile/{{row.post_id}}/Lovely/{{id}}"
+                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                     title="Lovely"><img
+                                                                         src="{% static 'mainuser/assets/images/icon/07.png'%}"
+                                                                         class="img-fluid" alt="lovely"
+                                                                         loading="lazy"></a>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="d-flex align-items-center gap-3 flex-shrink-0">
+                                                     <div class="total-comment-block" type="button"
+                                                         data-bs-toggle="collapse"
+                                                         data-bs-target="#commentcollapes{{row.post_id }}"
+                                                         aria-expanded="false" aria-controls="commentcollapes">
+                                                         <span
+                                                             class="material-symbols-outlined align-text-top font-size-20">
+                                                             comment
+                                                         </span>
+                                                         <span class="fw-medium">{{ row.comments_set.count }} Comment</span>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="collapse mt-4 pt-4 border-top" id="commentcollapes{{row.post_id }}">
+                                          <ul class="list-inline m-o p-0 comment-list">
+                                              {% for crow in comment %}
+                                              {% if row.post_id == crow.post_id.post_id %}
+                                              <li class="mb-3">
+                                                  <div class="comment-list-block">
+                                                      <div class="d-flex align-items-center gap-3">
+                                                          <div class="comment-list-user-img flex-shrink-0">
+                                                              {% for erow in allextrainfo %}
+                                                              {% if erow.user_id.id == crow.user_id.id %}
+                                                              <img src="{{erow.profile}}" alt="userimg"
+                                                                  class="avatar-48 rounded-circle img-fluid"
+                                                                  loading="lazy">
+                                                              {% endif %}
+                                                              {% endfor %}
+                                                          </div>
+                                                          <div class="comment-list-user-data">
+                                                              <div
+                                                                  class="d-inline-flex align-items-center gap-1 flex-wrap">
+                                                                  <h6 class="m-0">{{crow.user_id.first_name}}</h6>
+                                                                  <span class="d-inline-block text-primary">
+                                                                      <svg class="align-text-bottom"
+                                                                          xmlns="http://www.w3.org/2000/svg"
+                                                                          width="17" height="17" viewBox="0 0 17 17"
+                                                                          fill="none">
+                                                                          <path fill-rule="evenodd"
+                                                                              clip-rule="evenodd"
+                                                                              d="M12.2483 0.216553H4.75081C2.13805 0.216553 0.5 2.0665 0.5 4.68444V11.7487C0.5 14.3666 2.13027 16.2166 4.75081 16.2166H12.2475C14.8689 16.2166 16.5 14.3666 16.5 11.7487V4.68444C16.5 2.0665 14.8689 0.216553 12.2483 0.216553Z"
+                                                                              fill="currentColor" />
+                                                                          <path
+                                                                              d="M5.5 8.21627L7.50056 10.216L11.5 6.21655"
+                                                                              stroke="white" stroke-width="1.5"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round" />
+                                                                      </svg>
+                                                                  </span>
+                                                                  <spna class="fw-medium small text-capitalize">
+                                                                      {{crow.comment_datetime}}</spna>
+                                                              </div>
+                                                          </div>
+
+                                                      </div>
+
+                                                      <div class="comment-list-user-comment">
+
+                                                          <div class="comment-list-action mt-2">
+
+                                                              <div class="add-comment-form-block collapse mt-3"
+                                                                  id="subcomment-collapse1">
+                                                                  <div class="d-flex align-items-center gap-3">
+                                                                      <div class="flex-shrink-0">
+                                                                          <img src="assets/images/user/1.jpg"
+                                                                              alt="userimg"
+                                                                              class="avatar-48 rounded-circle img-fluid"
+                                                                              loading="lazy">
+                                                                      </div>
+                                                                      <div class="add-comment-form">
+                                                                          <form>
+                                                                              <input type="text" class="form-control"
+                                                                                  placeholder="Write a Comment...">
+                                                                              <button type="submit"
+                                                                                  class="btn btn-primary font-size-12 text-capitalize px-5">post</button>
+                                                                          </form>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="comment-list-comment">
+                                                      "{{crow.comments}}"
+                                                  </div>
+                                              </li>
+                                              {% endif %}
+                                              {% endfor %}
+                                          </ul>
+                                          <div class="add-comment-form-block">
+                                              <div class="d-flex align-items-center gap-3">
+                                                  <div class="flex-shrink-0">
+                                                      {% for erow in allextrainfo %}
+                                                      {% if erow.user_id.id == request.user.id %}
+                                                      <img src="{{erow.profile}}" alt="userimg"
+                                                          class="avatar-48 rounded-circle img-fluid" loading="lazy">
+                                                      {% endif %}
+                                                      {% endfor %}
+                                                  </div>
+                                                  <div class="add-comment-form">
+                                                      <form method="POST" enctype="multipart/form-data"
+                                                          action="/insert_comment">
+                                                          {% csrf_token %}
+                                                          <input type="hidden" class="form-control" id="postid"
+                                                              name="postid" value="{{row.post_id}}">
+                                                          <input type="text" class="form-control" id="comment"
+                                                              name="comment" placeholder="Write a Comment...">
+                                                          <button type="submit"
+                                                              class="btn btn-primary font-size-12 text-capitalize px-5">post</button>
+                                                      </form>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      {% endfor %}
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="about" role="tabpanel">
+                     <div class="row">
+                        <div class="col-md-4">
+                           <div class="card">
+                              <div class="card-body">
+                                 <ul class="nav nav-pills basic-info-items list-inline d-block p-0 m-0">
+                                    <li>
+                                       <a class="nav-link active" href="#v-pills-basicinfo-tab" data-bs-toggle="pill"
+                                          data-bs-target="#v-pills-basicinfo-tab" role="button">Basic Info</a>
+                                    </li>
+                                    <li>
+                                       <a class="nav-link" href="#v-pills-work-tab" data-bs-toggle="pill"
+                                          data-bs-target="#v-pills-work-tab" role="button">Education Info</a>
+                                    </li>
+                                    <li>
+                                       <a class="nav-link" href="#v-pills-details-tab" data-bs-toggle="pill"
+                                          data-bs-target="#v-pills-details-tab" role="button">Work/Career Info </a>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-md-8 ps-4">
+                           <div class="card">
+                              <div class="card-body">
+                                 <div class="tab-content">
+                                    <div class="tab-pane fade active show" id="v-pills-basicinfo-tab" role="tabpanel"
+                                       aria-labelledby="v-pills-basicinfo-tab">
+                                       <h4>Personal Info</h4>
+                                       <hr>
+                                       <div class="row mb-2">
+                                          <div class="col-3">
+                                             <h6>About Me:</h6>
+                                          </div>
+                                          <div class="col-9">
+                                             <p class="mb-0">{{extrainfo.aboutme}}</p>
+                                          </div>
+                                       </div>
+                                       <div class="row mb-2">
+                                          <div class="col-3">
+                                             <h6>Gender:</h6>
+                                          </div>
+                                          <div class="col-9">
+                                             <p class="mb-0">{{extrainfo.gender}}</p>
+                                          </div>
+                                       </div>
+                                       <div class="row mb-2">
+                                          <div class="col-3">
+                                             <h6>City:</h6>
+                                          </div>
+                                          <div class="col-9">
+                                             <p class="mb-0">{{extrainfo.city_id.city_name}}</p>
+                                          </div>
+                                       </div>
+                                       <div class="row mb-2">
+                                          <div class="col-3">
+                                             <h6>Birth Date:</h6>
+                                          </div>
+                                          <div class="col-9">
+                                             <p class="mb-0">{{extrainfo.birthdate}}</p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-work-tab" role="tabpanel"
+                                       aria-labelledby="v-pills-work-tab">
+                                       <h2 class="mt-3 mb-3" style="color:peru;">University/College :</h2> <hr>
+                                       {% for row in education %}
+                                       <div class="row mb-2">
+                                          <div class="col-5">
+                                             <h3 style="color:blue;">{{row.colleges_id.colleges_name}}</h3>
+                                          </div>
+                                       </div> <hr>
+                                       <h2 class="mb-3" style="color:peru;">Degree :</h2> <hr>
+                                       <div class="row mb-2">
+                                          <div class="col-5">
+                                             <h3 style="color:blue;">{{row.degree_id.degree_name}}</h3>
+                                          </div>
+                                       </div>
+                                       {% endfor %}
+                                    </div>
+                                    {% for row in career %}
+                                    <div class="tab-pane fade" id="v-pills-details-tab" role="tabpanel"
+                                       aria-labelledby="v-pills-details-tab">
+                                       <h1 class="mt-2">Work & Career Info</h1>
+                                       <hr>
+                                       <h3 class="mb-1">Company Name: {{row.company_name}} </h3>
+                                       <h3 class="mt-2 mb-1">Position: {{row.position}} </h3>
+                                       <h3 class="mt-2 mb-1">Joining: {{row.start_year}} </h3>
+                                       <h3 class="mt-2 mb-1">End: {{row.end_year}}</h3>
+                                    </div>
+                                    {% endfor %}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="friends" role="tabpanel">
+                     <div class="card">
+                        <div class="card-body">
+                           <h2>Friends</h2>
+                           <div class="friend-list-tab mt-2">
+                              <div class="tab-content" id="friends-tab-content">
+                                 <div class="tab-pane fade show active" id="all-friends" role="tabpanel">
+                                    <div class="card-body p-0">
+                                       <div class="row">
+                                          {% for row in friend %}
+                                          <div class="col-md-6 col-lg-6 mb-3">
+                                             <div class="iq-friendlist-block">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                   <div class="d-flex align-items-center">
+                                                      <a href="#">
+                                                         {% for erow in allextrainfo %}
+                                                         {% if erow.user_id.id == row.friend_id.id %}
+                                                         <img src="{{erow.profile}}" style="height: 150px;"
+                                                            alt="profile-img" class="img-fluid" loading="lazy" width="100" height="100">
+                                                         {% endif %}
+                                                         {% endfor %}
+                                                      </a>
+                                                      <div class="friend-info ms-3">
+                                                         <a href="/myfriendrequestprofile/{{row.friend_id.id}}"> <h5>{{row.friend_id.first_name}}</h5></a>
+                                                        
+                                                      </div>
+                                                   </div>
+                                                   
+                                                </div>
+                                             </div>
+                                          </div>
+                                          {% endfor %}
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="photos" role="tabpanel">
+                     <div class="card">
+                        <div class="card-body">
+                           <h2>Photos</h2>
+                           <div class="friend-list-tab mt-2">
+                              <div class="tab-content">
+                                 <div class="tab-pane fade active show" id="photosofyou" role="tabpanel">
+                                    <div class="card-body p-0">
+                                       <div class="d-grid gap-2 d-grid-template-1fr-13">
+                                          {% for row in photo %}
+                                          <div class="">
+                                             <div class="user-images position-relative overflow-hidden">
+                                                <a data-fslightbox="gallery"
+                                                   href="{{row.photo_url}}"
+                                                   class="rounded">
+                                                   <img src="{{row.photo_url}}" style="height: 350px;"
+                                                      class="img-fluid rounded" alt="photo-profile" loading="lazy" width="100%">
+                                                </a>
+                                                
+                                             </div>
+                                          </div>
+                                          {% endfor %}
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

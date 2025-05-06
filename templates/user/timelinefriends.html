@@ -1,0 +1,126 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Timeline
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+
+    <!-- Timeline
+    ================================================= -->
+    <div class="timeline">
+        <div class="timeline-cover">
+
+            <!--Timeline Menu for Large Screens-->
+            <div class="timeline-nav-bar hidden-sm hidden-xs">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-info">
+                            <img src="{{userextrainfo.profile}}" alt="" class="img-responsive profile-photo" />
+                            <h3>{{userdata.first_name}}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="list-inline profile-menu">
+                            <li><a href="/timelineabout/{{id}}">About</a></li>
+                            <li><a href="/timeline/{{id}}">Timeline</a></li>
+                            <li><a href="/timelinefriends/{{id}}" class="active">Following</a></li>
+                        </ul>
+                        <ul class="follow-me list-inline">
+                            <li><button class="btn-primary">Add Friend</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!--Timeline Menu for Large Screens End-->
+
+            <!--Timeline Menu for Small Screens-->
+            <div class="navbar-mobile hidden-lg hidden-md">
+                <div class="profile-info">
+                    <img src="{% static 'user/images/users/user-1.jpg' %}" alt=""
+                        class="img-responsive profile-photo" />
+                    <h4></h4>
+                </div>
+                <div class="mobile-menu">
+                    <ul class="list-inline profile-menu">
+                        <li><a href="/timelineabout/{{id}}">About</a></li>
+                        <li><a href="/timeline/{{id}}">Timeline</a></li>
+                        <li><a href="/timelinefriends/{{id}}" class="active">Following</a></li>
+                    </ul>
+                </div>
+            </div><!--Timeline Menu for Small Screens End-->
+
+        </div>
+        <div id="page-contents">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-7">
+
+                    <!-- Friend List
+                    ======================================== -->
+                    <div class="friend-list">
+                        <div class="row">
+                            {% for row in data %}
+                            <div class="col-md-6 col-sm-6">
+                                <div class="friend-card">
+                                    <img src="{% static 'user/images/covers/1.jpg' %}" alt="profile-cover"
+                                        class="img-responsive cover" />
+                                    <div class="card-info">
+                                        {% for erow in extrainfo %}
+                                        {% if erow.user_id.id == row.id %}
+                                        <img src="{{erow.profile}}" alt="user" class="profile-photo-lg" />
+                                        {% endif %}
+                                        {% endfor %}
+                                        <div class="friend-info">
+                                            <a href="#" class="pull-right text-green">My Friend</a>
+                                            <h5><a href="timeline.html" class="profile-link">{{row.first_name}}</a></h5>
+                                            <p>Student at Harvard</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-2 static">
+                    <div id="sticky-sidebar">
+                        <h4 class="grey">Sarah's activity</h4>
+                        <div class="feed-item">
+                            <div class="live-activity">
+                                <p><a href="#" class="profile-link">Sarah</a> Commended on a Photo</p>
+                                <p class="text-muted">5 mins ago</p>
+                            </div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="live-activity">
+                                <p><a href="#" class="profile-link">Sarah</a> Has posted a photo</p>
+                                <p class="text-muted">an hour ago</p>
+                            </div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="live-activity">
+                                <p><a href="#" class="profile-link">Sarah</a> Liked her friend's post</p>
+                                <p class="text-muted">4 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="live-activity">
+                                <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
+                                <p class="text-muted">a day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

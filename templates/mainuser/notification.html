@@ -1,0 +1,63 @@
+{% extends 'mainuser/master.html' %}
+
+{% load static %}
+
+{% block 'title' %}
+Vibenest - Notification
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+<div>
+    <div class="position-relative">
+    </div>
+    <div class="content-inner " id="page_layout">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h4 class="card-title mb-3">Notification</h4>
+          </div>
+          <div class="col-sm-12">
+            {% for row in data %}
+            <div class="card">
+              <div class="card-body">
+                <ul class="notification-list m-0 p-0">
+                  <li class="d-flex align-items-center justify-content-between">
+                    <div class="user-img img-fluid">
+                      <a href="#" class="btn btn-icon btn-success-subtle btn-sm me-3">
+                        <span class="btn-inner">
+                          <i class="material-symbols-outlined font-size-16">
+                            chat_bubble_outline
+                          </i>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="w-100">
+                      <div class="d-flex justify-content-between">
+                        <div class=" ms-3">
+                          <h6>{{row.description}}</h6>
+                          <p class="mb-0">{{row.category}}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="card-header-toolbar d-flex align-items-center">
+                            <a class="dropdown-item d-flex align-items-center" href="/delete_notification/{{ row.notification_id }}">
+                              <span class="material-symbols-outlined me-2 md-18"> delete </span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

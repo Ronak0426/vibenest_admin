@@ -1,0 +1,82 @@
+{% extends 'mainuser/master.html' %}
+{% load static %}
+
+{% block 'title' %}
+Vibenest - Group Details 
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}{% endblock %}
+
+{% block 'main' %}
+<div class="content-inner " id="page_layout">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
+            <div class="group-info d-flex align-items-center">
+              <div class="me-3">
+                <img class="rounded-circle img-fluid avatar-100" src="{{groupdata.group_logo}}" alt=""
+                  loading="lazy">
+              </div>
+              <div class="info">
+                <h4>{{groupdata.group_name}}</h4>
+                <p class="mb-0 d-flex">{{groupdata.description}}</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between border-bottom">
+               <div class="header-title">
+                  <h4 class="card-title">Friends</h4>
+               </div>
+            </div>
+            <div class="card-body">
+               <ul class="profile-img-gallary p-0 m-0 list-unstyled">
+                {% for row in userdata %}
+                  <li class="">
+                    {% for erow in extrainfo %}
+                    {% if erow.user_id.id == row.user_id.id %}
+                     <img src="{{erow.profile}}" style="height: 200px; width: 200px;" alt="gallary-image" class="img-fluid" loading="lazy">
+                     {% endif %}
+                     {% endfor %}
+                     <center><h6 class="mt-2 text-center">{{row.user_id.first_name}}</h6></center>
+                  </li>
+                  {% endfor %}
+               </ul>
+            </div>
+         </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between">
+              <div class="header-title">
+                <h4 class="card-title">Add Members</h4> <br>
+                <div class="iq-search-bar members-search p-0">
+                  <form id="form" method="POST" name="form" id="form" class="form-inline" enctype="multipart/form-data" action="/add_member/{{groupdata.groups_id }}">
+                    {% csrf_token %}
+
+                    <select id="member" class="form-control input-group-lg" type="text"
+                            name="member" placeholder="Add Group Members">
+                            <option value="">Please Add Your Group Members</option>
+                            {% for row in user %}
+                            <option value="{{row.id}}">{{row.first_name}}</option>
+                            {% endfor %}
+                    </select> <br> 
+                      <button type="submit" class="btn btn-primary d-flex gap-2"><i
+                        class="material-symbols-outlined">add</i>Add </button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

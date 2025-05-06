@@ -1,0 +1,210 @@
+{% extends 'user/master.html' %}%}
+{% load static %}
+
+{% block 'title' %}
+Basic Information
+{% endblock %}
+
+{% block 'css' %}{% endblock %}
+
+{% block 'js' %}
+
+<script>
+  {% if data.city_id.state_id.state_id %}
+  loadbystate({{data.city_id.state_id.state_id}},{{data.city_id.city_id}});
+  {% endif %}
+  function loadbystate(stateid,cid="")
+  {
+      $.ajax({
+        url:"/adminpanel/loadcitybystate",
+        method:"POST",
+        data:{"stateid":stateid,"cid":cid},
+        success:function(response)
+        {
+          $("#city").html(response);
+        },
+        error:function(error)
+        {
+          alert(error);
+        }
+      })
+  }
+</script>
+
+
+{% endblock %}
+
+{% block 'main' %}
+
+<div class="container">
+
+  <!-- Timeline
+    ================================================= -->
+  <div class="timeline">
+    <div class="timeline-cover">
+
+      <!--Timeline Menu for Large Screens-->
+      <div class="timeline-nav-bar hidden-sm hidden-xs">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="profile-info">
+              <img src="{{data.profile}}" alt="" class="img-responsive profile-photo" />
+              <h3>{{request.user.first_name}}</h3>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <ul class="list-inline profile-menu">
+              <li><a href="/userpost">POST</a></li>
+              <li><a href="/userabout">ABOUT</a></li>
+              <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+              <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!--Timeline Menu for Large Screens End-->
+
+      <!--Timeline Menu for Small Screens-->
+      <div class="navbar-mobile hidden-lg hidden-md">
+        <div class="profile-info">
+          <img src="{{data.profile}}" alt="" class="img-responsive profile-photo" />
+          <h4>{{request.user.first_name}}</h4>
+          <p class="text-muted">Creative Director</p>
+        </div>
+        <div class="mobile-menu">
+          <ul class="list-inline profile-menu">
+            <li><a href="/userpost">POST</a></li>
+            <li><a href="/userabout" class="active">ABOUT</a></li>
+            <li><a href="/userfriendfollowing">FRIEND FOLLOWING</a></li>
+            <li><a href="/userfriendrequest">FRIEND REQUEST</a></li>
+          </ul>
+        </div>
+      </div>
+      <!--Timeline Menu for Small Screens End-->
+
+    </div>
+    <div id="page-contents">
+      <div class="row">
+
+        <!--Edit Profile Menu-->
+        <div class="col-md-3">
+          <ul class="edit-menu">
+            <li class="active"><i style="font-size:18px" class="fa">&#xf05a;</i><a href="/basicinfo">Basic Information</a></li>
+            <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/education">Education </a></li>
+            <li><i style="font-size:18px" class="fa">&#xf19d;</i><a href="/career">Career </a></li>
+            <li><i style="font-size:18px" class="fa">&#xf0c0;</i><a href="/groups">Group's</a></li>
+            <li><i style='font-size:18px' class='fa'>&#xf004;</i><a href="/myinterests">My Interests</a></li>
+            <li><i style="font-size:18px" class="fa">&#xf013;</i><a href="/accountsetting">Account Settings</a></li>
+            <li><i style="font-size:18px" class="fa">&#xf023;</i></i><a href="/changepassword">Change Password</a></li>
+            <li><i class="fa fa-sign-out" style="font-size:18px"></i><a href="/logoutuser">Logout</a></li>
+        </ul>
+        </div>
+        <!--Edit Profile Menu End -->
+        <div class="col-md-9">
+
+
+          <!-- Basic Information
+            ================================================= -->
+          <div class="edit-profile-container">
+            <div class="block-title">
+              <h4 class="grey"><i class="icon ion-android-checkmark-circle"></i>Edit Basic Information</h4>
+             
+              <div class="line"></div>
+            </div>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            <div class="edit-block">
+              <form id="form" method="POST" class="form-inline" enctype="multipart/form-data"
+                action="/insert_basicinfo">
+                {% csrf_token %}
+                <div class="row">
+                 
+                  <div class="form-group col-xs-6">
+                    <label for="firstname">First Name</label>
+                    <input id="firstname" class="form-control input-group-lg" type="text" name="firstname"
+                      value="{{request.user.first_name}}" readonly title="Enter first name" placeholder="First name" />
+                  </div>
+                  <div class="form-group col-xs-6">
+                    <label for="lastname" class="">Last Name</label>
+                    <input id="lastname" class="form-control input-group-lg" type="text" name="lastname"
+                      value="{{request.user.last_name}}" readonly title="Enter last name" placeholder="Last name" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-6">
+                    <label for="email">My Email</label>
+                    <input id="email" value="{{request.user.email}}" readonly class="form-control input-group-lg"
+                      type="text" name="email" title="Enter Email" placeholder="My Email" />
+                  </div>
+                  <div class="form-group  col-lg-6">
+                    <label for="date">Date of Birth</label>
+                    <input type="date" value="{{data.birthdate|date:'Y-m-d'}}" id="date" class="form-control input-group-lg" name="date"
+                      placeholder="Enter Birth Date">
+                  </div>
+                  
+                </div>
+                <div class="row">       
+                  <div class="form-group col-lg-6">
+                    <label for="city"> My State</label>
+
+                    <select id="state" onchange="loadbystate(this.value);" class="form-control input-group-lg" type="text" name="state" title="Enter city"
+                      placeholder="Your State">
+                      <option>Please Select State</option>
+                      {% for row in states %}
+                      <option  {% if data.city_id.state_id.state_id == row.state_id %} selected {% endif %} value="{{row.state_id}}">{{row.state_name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-lg-6">
+                    <label for="city"> My City</label>
+
+                    <select id="city" class="form-control input-group-lg" type="text" name="city" title="Enter city"
+                      placeholder="Your city">
+                      <option>Please Select City</option>
+                      <!-- <option>Please Select City</option>
+                      {% for row in city %}
+                      <option  {% if data.city_id.city_id == row.city_id %} selected {% endif %} value="{{row.city_id}}">{{row.city_name}}</option>
+                      {% endfor %} -->
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-6">
+                    <label for="userphoto">Photo</label>
+                    <input id="userphoto" class="form-control input-group-lg" type="file" name="userphoto" >
+                  </div>  
+                </div>         
+                <div class="row">
+                  <div class="form-group col-xs-6"> 
+                    <label for="optgender">Gender</label>
+                    <label class="radio-inline">
+                      <input type="radio" {% if data.gender == "Male" %} checked {% endif %}  value="Male"  name="optgender" checked>Male
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" {% if data.gender == "Female" %} checked {% endif %} value="Female" name="optgender">Female
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-12">
+                    <label for="aboutme">About me</label>
+                    <textarea id="aboutme" name="aboutme" class="form-control" placeholder="Some texts about me"
+                      rows="4" cols="400">{{data.aboutme}}</textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Information</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
